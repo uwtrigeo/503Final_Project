@@ -11,6 +11,12 @@
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
     integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
     crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Leaflet.markercluster CSS links -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+    <!-- Leaflet.markercluster JS link -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- papaparse to read data from a CSV file-->
@@ -20,7 +26,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Custom style file -->
     <link rel="stylesheet" href="styles.css" type="text/css">
-    <title>US Ski Areas</title>
+    <title>USA Ski Resorts</title>
 </head>
     <body>
         <div class="container">
@@ -29,11 +35,28 @@
                     <!-- <div id="mapid"></div> -->
                 </div>
             </div>
-        <h1>United States Ski Resorts</h1>
+        <h1>United States Ski Resorts Year Opened</h1>
         <div id="map"></div>
-        <h1>Some text</h1>
+        <h1>Ski Resort size in acres</h1>
         <div id="map2"></div>
-        <script src="scripts.js"></script> 
+        <h1>Ski Resort number of lifts</h1>
+        <div id="map3"></div>
+        <h1>Ski Resort amount of vertical</h1>
+        <div id="map4"></div>
+        <h1>Ski Resort Heatmap</h1>
+        <div id="map5"></div>
+        <h1>Base Elevation</h1>
+        <div id="map6"></div>
+        <h1>Top Elevation</h1>
+        <div id="map7"></div>
+        <h1>Number of Trails</h1>
+        <div id="map8"></div>
+        <h1>Average snow depth</h1>
+        <div id="map9"></div>
+
+        <!-- link that loads the ski resort data from an external file -->
+		<script type="text/javascript" src="data/ski_resort_stats.js"></script>
+        <script src="scripts.js"></script>
     </body>
 </html>
 

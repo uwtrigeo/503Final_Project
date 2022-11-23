@@ -1,46 +1,169 @@
+
+// Map 1
 // Initialize map
-var map = L.map('map').setView([50.10138520851064, -101.461714911189], 3);
+// var map = L.map('map').setView([50.10138520851064, -101.461714911189], 3);
+
+var myStyle = {
+  radius: 8,
+      fillColor: "#ff7800",
+      color: "#000",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.8
+  };
 
 // Add basemap
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
-}).addTo(map);
+ // OpenStreetMap layer
+ var OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
+// OpenTopoMap layer
+var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	maxZoom: 17,
+	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+// Esri Satellite
+var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+ });
 
-var map2 = L.map('map2').setView([50.10138520851064, -101.461714911189], 3);
+// stats layers added
+// var skiStats = L.geoJSON(resorts, {
+//     pointToLayer: function (feature, latlng) {
+//     return L.circleMarker(latlng, {
+//       style: myStyle,
+//     });
+//   },
+//   onEachFeature: function (feature, layer) {
+//     layer.bindPopup("<p> Resort Name: " + feature.properties.resort_name + "<br> Year Opened: " + feature.properties.year_opened + "</p>");
+//   }
+// });
 
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
-}).addTo(map2);
+var skiStats = L.geoJSON(resorts, {
+  pointToLayer: function (feature, latlng) {
+      var circleColor;
+      if (feature.properties.year_opened <= 1950) {
+          circleColor = "#ff0000";
+      } else if (feature.properties.year_opened <= 1960) {
+          circleColor = "#ff7800";
+      } else if (feature.properties.year_opened <= 1970) {
+          circleColor = "#ffbf00";
+      } else if (feature.properties.year_opened <= 1980) {
+          circleColor = "#ffff00";
+      } else if (feature.properties.year_opened <= 1990) {
+          circleColor = "#bfff00";
+      } else if (feature.properties.year_opened <= 2000) {
+          circleColor = "#00ff00";
+      } else if (feature.properties.year_opened > 2000) {
+          circleColor = "#ADD8E6";
+      } else if (feature.properties.year_opened == "#N/A") {
+          circleColor = "#000000";
 
-// Read markers data from csv file
-$.get('data/ski_resort_stats.csv', function(csvString) {
-
-    // Use PapaParse to convert string to array of objects
-    var data = Papa.parse(csvString, {header: true, dynamicTyping: true}).data;
-
-    // For each row in data, create a marker and add it to the map
-    // For each row, columns `Latitude`, `Longitude`, and `Title` are required
-    for (var i in data) {
-      var row = data[i];
-
-      var marker = L.marker([row.lat, row.lon], {
-        opacity: 1
-      }).bindPopup(row.resort_name
-        );
-      
-      marker.addTo(map);
-    }
+      }
+      var skiStatsStyle = {
+          radius: 8,
+          fillColor: circleColor,
+          color: "#000",
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.8
+      };
+      return L.circleMarker(latlng, skiStatsStyle);
+  },
+  onEachFeature: function (feature, layer) {
+      layer.bindPopup("<p> Resort Name: " + feature.properties.resort_name + "<br> Year Opened: " + feature.properties.year_opened + "</p>");
+  }
 });
 
 
 
+// Initialize map
+var map = L.map('map', {
+  center: [50.10138520851064, -101.461714911189],
+  zoom: 3,
+  layers: [Esri_WorldImagery, skiStats]
+});
+
+var layercontrol = L.control.layers({
+  "OpenStreetMap": OSM,
+  "OSM Topo": OpenTopoMap,
+  "Esri World Imagery": Esri_WorldImagery
+}, {
+  "Ski Resorts": skiStats
+}, {
+  
+}).addTo(map);
+
+// ski resort opened legend with map
+/*Legend specific*/
+var legend = L.control({ position: "bottomleft" });
+
+legend.onAdd = function(map) {
+  var div = L.DomUtil.create("div", "legend");
+  div.innerHTML += "<h4>Year Opened</h4>";
+  div.innerHTML += '<i style="background: #ff0000"></i><span>Before 1960</span><br>';
+  div.innerHTML += '<i style="background: #ff7800"></i><span>1950-1960</span><br>';
+  div.innerHTML += '<i style="background: #ffbf00"></i><span>1960-1970</span><br>';
+  div.innerHTML += '<i style="background: #ffff00"></i><span>1970-1980</span><br>';
+  div.innerHTML += '<i style="background: #bfff00"></i><span>1980-1990</span><br>';
+  div.innerHTML += '<i style="background: #00ff00"></i><span>1990-2000</span><br>';
+  div.innerHTML += '<i style="background: #ADD8E6"></i><span>After 2000</span><br>';
+  div.innerHTML += '<i style="background: #000000"></i><span>N/A</span><br>';
+
+  return div;
+};
+
+legend.addTo(map);
 
 
+// map 2
+
+// Add basemap
+ // OpenStreetMap layer
+ var OSM2 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
+// OpenTopoMap layer
+var OpenTopoMap2 = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	  maxZoom: 17,
+	  attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+// Esri Satellite
+var Esri_WorldImagery2 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+ });
 
 
+// stats layers added
+var skiStats2 = L.geoJSON(resorts, {
+    pointToLayer: function (feature, latlng) {
+    return L.circleMarker(latlng, {
+    style: myStyle,
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup("<p> Resort Name: " + feature.properties.resort_name + "<br> Total acres: " + feature.properties.acres + "</p>");
+  }
+});
 
+// Initialize map
+var map2 = L.map('map2', {
+  center: [50.10138520851064, -101.461714911189],
+  zoom: 3,
+  layers: [Esri_WorldImagery2, skiStats2]
+});
+
+layercontrol2 = L.control.layers({
+  "OpenStreetMap": OSM2,
+  "OSM Topo": OpenTopoMap2,
+  "Esri World Imagery": Esri_WorldImagery2
+}, {
+  "Ski Resorts": skiStats2
+}, {
+  
+}).addTo(map2);
 
 
 

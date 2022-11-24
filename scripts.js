@@ -96,13 +96,12 @@ var layercontrol = L.control.layers({
 }).addTo(map);
 
 // ski resort opened legend with map
-/*Legend specific*/
 var legend = L.control({ position: "bottomleft" });
 
 legend.onAdd = function(map) {
   var div = L.DomUtil.create("div", "legend");
   div.innerHTML += "<h4>Year Opened</h4>";
-  div.innerHTML += '<i style="background: #ff0000"></i><span>Before 1960</span><br>';
+  div.innerHTML += '<i style="background: #ff0000"></i><span>Before 1950</span><br>';
   div.innerHTML += '<i style="background: #ff7800"></i><span>1950-1960</span><br>';
   div.innerHTML += '<i style="background: #ffbf00"></i><span>1960-1970</span><br>';
   div.innerHTML += '<i style="background: #ffff00"></i><span>1970-1980</span><br>';

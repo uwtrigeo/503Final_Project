@@ -14,14 +14,14 @@ var myStyle = {
 
 // Add basemap
  // OpenStreetMap layer
- var OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+var OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+     maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   });
 // OpenTopoMap layer
 var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-	maxZoom: 17,
-	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+	  maxZoom: 17,
+	  attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 });
 // Esri Satellite
 var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -29,17 +29,6 @@ var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest
  });
 
 // stats layers added
-// var skiStats = L.geoJSON(resorts, {
-//     pointToLayer: function (feature, latlng) {
-//     return L.circleMarker(latlng, {
-//       style: myStyle,
-//     });
-//   },
-//   onEachFeature: function (feature, layer) {
-//     layer.bindPopup("<p> Resort Name: " + feature.properties.resort_name + "<br> Year Opened: " + feature.properties.year_opened + "</p>");
-//   }
-// });
-
 var skiStats = L.geoJSON(resorts, {
   pointToLayer: function (feature, latlng) {
       var circleColor;
@@ -95,25 +84,45 @@ var layercontrol = L.control.layers({
   
 }).addTo(map);
 
+// ski resort opened legend
+
 // ski resort opened legend with map
-var legend = L.control({ position: "bottomleft" });
+// var legend = L.control({ position: "bottomleft" });
 
-legend.onAdd = function(map) {
-  var div = L.DomUtil.create("div", "legend");
-  div.innerHTML += "<h4>Year Opened</h4>";
-  div.innerHTML += '<i style="background: #ff0000"></i><span>Before 1950</span><br>';
-  div.innerHTML += '<i style="background: #ff7800"></i><span>1950-1960</span><br>';
-  div.innerHTML += '<i style="background: #ffbf00"></i><span>1960-1970</span><br>';
-  div.innerHTML += '<i style="background: #ffff00"></i><span>1970-1980</span><br>';
-  div.innerHTML += '<i style="background: #bfff00"></i><span>1980-1990</span><br>';
-  div.innerHTML += '<i style="background: #00ff00"></i><span>1990-2000</span><br>';
-  div.innerHTML += '<i style="background: #ADD8E6"></i><span>After 2000</span><br>';
-  div.innerHTML += '<i style="background: #000000"></i><span>N/A</span><br>';
+// legend.onAdd = function(map) {
+//   var div = L.DomUtil.create("div", "legend");
+//   div.innerHTML += "<h4>Year Opened</h4>";
+//   div.innerHTML += '<i style="background: #ff0000"></i><span>Before 1950</span><br>';
+//   div.innerHTML += '<i style="background: #ff7800"></i><span>1950-1960</span><br>';
+//   div.innerHTML += '<i style="background: #ffbf00"></i><span>1960-1970</span><br>';
+//   div.innerHTML += '<i style="background: #ffff00"></i><span>1970-1980</span><br>';
+//   div.innerHTML += '<i style="background: #bfff00"></i><span>1980-1990</span><br>';
+//   div.innerHTML += '<i style="background: #00ff00"></i><span>1990-2000</span><br>';
+//   div.innerHTML += '<i style="background: #ADD8E6"></i><span>After 2000</span><br>';
+//   div.innerHTML += '<i style="background: #000000"></i><span>N/A</span><br>';
 
-  return div;
-};
+//   return div;
+// };
 
+// legend.addTo(map);
+
+var legend = L.control({position: 'bottomleft'});
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'info legend');
+      var labels = ["<h4>Year Opened</h4>"];
+      var categories = ['Before 1950', '1950-1960', '1960-1970', '1970-1980', '1980-1990', '1990-2000', 'After 2000', 'N/A'];
+      var colors = ['#ff0000', '#ff7800', '#ffbf00', '#ffff00', '#bfff00', '#00ff00', '#ADD8E6', '#000000'];
+      div.innerHTML += labels;
+      for (var i = 0; i < categories.length; i++) {
+        div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + categories[i] + '<br>';
+      }
+      return div;
+    };
 legend.addTo(map);
+
+// add scale bar
+L.control.scale().addTo(map);
+
 
 
 // map 2

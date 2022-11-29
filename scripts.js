@@ -12,6 +12,8 @@ var myStyle = {
       fillOpacity: 0.8
   };
 
+
+
 // Add basemap
  // OpenStreetMap layer
 var OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -37,8 +39,8 @@ var skiStats = L.geoJSON(resorts, {
       else if (feature.properties.year_opened <= 1970) circleColor = "#ffbf00";
       else if (feature.properties.year_opened <= 1980) circleColor = "#ffff00";
       else if (feature.properties.year_opened <= 1990) circleColor = "#bfff00";
-      else if (feature.properties.year_opened <= 2000) circleColor = "#00ff00";
-      else if (feature.properties.year_opened > 2000)  circleColor = "#ADD8E6";
+      else if (feature.properties.year_opened <= 2000) circleColor = "#5DC669";
+      else if (feature.properties.year_opened > 2000)  circleColor = "#08F221";
       else circleColor = "#000000";
 
       var skiStatsStyle = {
@@ -88,7 +90,7 @@ var layercontrol = L.control.layers({
 var Legend = L.control.Legend({
   position: "bottomleft",
   title: "Opened",
-  opacity:0.75,
+  opacity:0.85,
   legends: [
     {
       label: "Before 1950",
@@ -134,7 +136,7 @@ var Legend = L.control.Legend({
       label: "1990-2000",
       type: "circle",
       radius: 6,
-      color: "#00ff00",
+      color: "#5DC669",
       fill: true,
       fillOpacity: "0.4"
     },
@@ -142,7 +144,7 @@ var Legend = L.control.Legend({
       label: "After 2000",
       type: "circle",
       radius: 6,
-      color: "#ADD8E6",
+      color: "#08F221",
       fill: true,
       fillOpacity: "0.4"
     },
@@ -160,6 +162,26 @@ var Legend = L.control.Legend({
 
 // add scale bar
 L.control.scale().addTo(map);
+
+/*Legend specific*/
+var legend = L.control({ position: "bottomright" });
+
+legend.onAdd = function(map) {
+  var div = L.DomUtil.create("div", "legend");
+  div.innerHTML += "<h4>Tegnforklaring</h4>";
+  div.innerHTML += '<i style="background: #477AC2"></i><span>Water</span><br>';
+  div.innerHTML += '<i style="background: #448D40"></i><span>Forest</span><br>';
+  div.innerHTML += '<i style="background: #E6E696"></i><span>Land</span><br>';
+  div.innerHTML += '<i style="background: #E8E6E0"></i><span>Residential</span><br>';
+  div.innerHTML += '<i style="background: #FFFFFF"></i><span>Ice</span><br>';
+  div.innerHTML += '<i class="icon" style="background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/194515-200.png);background-repeat: no-repeat;"></i><span>Grænse</span><br>';
+  
+  
+
+  return div;
+};
+
+legend.addTo(map);
 
 
 
@@ -211,7 +233,7 @@ var map2 = L.map('map2', {
   layers: [OSM2, skiStats2]
 });
 
-layercontrol2 = L.control.layers({
+var layerControl2 = L.control.layers({
   "OpenStreetMap": OSM2,
   "OSM Topo": OpenTopoMap2,
   "Esri World Imagery": Esri_WorldImagery2
@@ -227,6 +249,8 @@ var Legend2 = L.control.Legend({
   position: "bottomleft",
   title: "Acres",
   opacity:0.75,
+  symbolWidth: 30,
+  collapsed: true,
   legends: [
     {
       label: "Below 100",
@@ -291,8 +315,7 @@ var Legend2 = L.control.Legend({
       color: "blue",
       fill: true,
       fillOpacity: "0.4"
-    }
-    ,
+    }    ,
     {
       label: "Above 3000",
       type: "circle",
@@ -306,3 +329,138 @@ var Legend2 = L.control.Legend({
 
 // add scale bar
 L.control.scale().addTo(map2);
+
+
+// map 3
+
+// Add basemap
+ // OpenStreetMap layer
+ var OSM3 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
+// OpenTopoMap layer
+var OpenTopoMap3 = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	  maxZoom: 17,
+	  attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+// Esri Satellite
+var Esri_WorldImagery3 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+ });
+
+
+// stats layers added
+var skiStats3 = L.geoJSON(resorts, {
+  pointToLayer: function (feature, latlng) {
+    var circleSize;      
+    if (feature.properties.lifts <= 3) circleSize = 2;
+    else if (feature.properties.lifts <= 5) circleSize = 4;
+    else if (feature.properties.lifts <= 8) circleSize = 6;
+    else if (feature.properties.lifts <= 10) circleSize = 8;
+    else if (feature.properties.lifts <= 15) circleSize = 10;
+    else if (feature.properties.lifts <= 20) circleSize = 12;
+    else if (feature.properties.lifts <= 30) circleSize = 14;
+    else circleSize = 0;
+    
+    var marker = L.circleMarker(latlng, {radius: circleSize, color: 'blue', weight: 1, opacity: 4, fillOpacity: 0.3});
+    marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Lifts: </b>" + feature.properties.lifts + "</p>");
+    return marker;
+  }
+});
+
+
+// Initialize map
+var map3 = L.map('map3', {
+  center: [50.10138520851064, -101.461714911189],
+  zoom: 3,
+  layers: [OSM3, skiStats3]
+});
+
+var layerControl3 = L.control.layers({
+  "OpenStreetMap": OSM3,
+  "OSM Topo": OpenTopoMap3,
+  "Esri World Imagery": Esri_WorldImagery3
+}, {
+  "Ski Resorts": skiStats3
+}, {
+  
+}).addTo(map3);
+
+
+// ski resort acres circle size legend
+var Legend3 = L.control.Legend({
+  position: "bottomleft",
+  title: "Lifts",
+  opacity:0.75,
+  legends: [
+    {
+      label: "Below 3",
+      type: "circle",
+      radius: 2,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "4-5",
+      type: "circle",
+      radius: 4,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "6-8",
+      type: "circle",
+      radius: 6,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "9-10",
+      type: "circle",
+      radius: 8,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "11-15",
+      type: "circle",
+      radius: 10,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "16-20",
+      type: "circle",
+      radius: 12,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "21-30",
+      type: "circle",
+      radius: 14,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "Above 30",
+      type: "circle",
+      radius: 16,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    }
+    
+]
+}).addTo(map3);
+
+// add scale bar
+L.control.scale().addTo(map3);

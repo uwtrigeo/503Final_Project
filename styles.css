@@ -1,4 +1,8 @@
 body {
+  background-image: url('data/ski_resort.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   font-family: sans-serif;
   max-width: 900px;
   margin: auto;

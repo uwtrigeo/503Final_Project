@@ -52,7 +52,7 @@ var skiStats = L.geoJSON(resorts, {
       return L.circleMarker(latlng, skiStatsStyle);
     },
     onEachFeature: function (feature, layer) {
-      layer.bindPopup("<b>" + feature.properties.name + "</b><br>" + feature.properties.year_opened);
+      layer.bindPopup("<b>Resort Name: </b>" + feature.properties.resort_name + "<br><b>Year Opened: </b>" + feature.properties.year_opened);
    }
 
 });
@@ -198,21 +198,11 @@ var skiStats2 = L.geoJSON(resorts, {
       else circleSize = 0;
       
       var marker = L.circleMarker(latlng, {radius: circleSize, color: 'blue', weight: 1, opacity: 4, fillOpacity: 0.3});
-      marker.bindPopup("<p> Resort Name: " + feature.properties.resort_name + "<br> Acres: " + feature.properties.acres + "</p>");
+      marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Acres: </b>" + feature.properties.acres + "</p>");
       return marker;
     }
   });
 
-        
-
-//     return L.circleMarker(latlng, {
-//     // style: myStyle,
-//     });
-//   },
-//   onEachFeature: function (feature, layer) {
-//     layer.bindPopup("<p> Resort Name: " + feature.properties.resort_name + "<br> Total acres: " + feature.properties.acres + "</p>");
-//   }
-// });
 
 // Initialize map
 var map2 = L.map('map2', {

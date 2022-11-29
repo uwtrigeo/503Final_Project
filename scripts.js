@@ -87,13 +87,13 @@ var layercontrol = L.control.layers({
 // ski resort opened legend
 var Legend = L.control.Legend({
   position: "bottomleft",
-  title: "Year Opened",
+  title: "Opened",
   opacity:0.75,
   legends: [
     {
       label: "Before 1950",
       type: "circle",
-      radius: 8,
+      radius: 6,
       color: "#ff0000",
       fill: true,
       fillOpacity: "0.4"
@@ -101,7 +101,7 @@ var Legend = L.control.Legend({
     {
       label: "1950-1960",
       type: "circle",
-      radius: 8,
+      radius: 6,
       color: "#ff7800",
       fill: true,
       fillOpacity: "0.4"
@@ -109,7 +109,7 @@ var Legend = L.control.Legend({
     {
       label: "1960-1970",
       type: "circle",
-      radius: 8,
+      radius: 6,
       color: "#ffbf00",
       fill: true,
       fillOpacity: "0.4"
@@ -117,7 +117,7 @@ var Legend = L.control.Legend({
     {
       label: "1970-1980",
       type: "circle",
-      radius: 8,
+      radius: 6,
       color: "#ffff00",
       fill: true,
       fillOpacity: "0.4"
@@ -125,7 +125,7 @@ var Legend = L.control.Legend({
     {
       label: "1980-1990",
       type: "circle",
-      radius: 8,
+      radius: 6,
       color: "#bfff00",
       fill: true,
       fillOpacity: "0.4"
@@ -133,7 +133,7 @@ var Legend = L.control.Legend({
     {
       label: "1990-2000",
       type: "circle",
-      radius: 8,
+      radius: 6,
       color: "#00ff00",
       fill: true,
       fillOpacity: "0.4"
@@ -141,7 +141,7 @@ var Legend = L.control.Legend({
     {
       label: "After 2000",
       type: "circle",
-      radius: 8,
+      radius: 6,
       color: "#ADD8E6",
       fill: true,
       fillOpacity: "0.4"
@@ -149,7 +149,7 @@ var Legend = L.control.Legend({
     {
       label: "NA",
       type: "circle",
-      radius: 8,
+      radius: 6,
       color: "black",
       fill: true,
       fillOpacity: "0.4"
@@ -235,14 +235,14 @@ layercontrol2 = L.control.layers({
 // ski resort acres circle size legend
 var Legend2 = L.control.Legend({
   position: "bottomleft",
-  title: "Resort Acres",
+  title: "Acres",
   opacity:0.75,
   legends: [
     {
       label: "Below 100",
       type: "circle",
       radius: 2,
-      color: "black",
+      color: "blue",
       fill: true,
       fillOpacity: "0.4"
     },
@@ -250,7 +250,7 @@ var Legend2 = L.control.Legend({
       label: "100-200",
       type: "circle",
       radius: 4,
-      color: "black",
+      color: "blue",
       fill: true,
       fillOpacity: "0.4"
     },
@@ -258,7 +258,7 @@ var Legend2 = L.control.Legend({
       label: "200-300",
       type: "circle",
       radius: 6,
-      color: "black",
+      color: "blue",
       fill: true,
       fillOpacity: "0.4"
     },
@@ -266,7 +266,7 @@ var Legend2 = L.control.Legend({
       label: "300-400",
       type: "circle",
       radius: 8,
-      color: "black",
+      color: "blue",
       fill: true,
       fillOpacity: "0.4"
     },
@@ -274,7 +274,7 @@ var Legend2 = L.control.Legend({
       label: "400-500",
       type: "circle",
       radius: 10,
-      color: "black",
+      color: "blue",
       fill: true,
       fillOpacity: "0.4"
     },
@@ -282,7 +282,7 @@ var Legend2 = L.control.Legend({
       label: "500-700",
       type: "circle",
       radius: 12,
-      color: "black",
+      color: "blue",
       fill: true,
       fillOpacity: "0.4"
     },
@@ -290,7 +290,7 @@ var Legend2 = L.control.Legend({
       label: "700-1000",
       type: "circle",
       radius: 14,
-      color: "black",
+      color: "blue",
       fill: true,
       fillOpacity: "0.4"
     },
@@ -298,7 +298,7 @@ var Legend2 = L.control.Legend({
       label: "1000-3000",
       type: "circle",
       radius: 16,
-      color: "black",
+      color: "blue",
       fill: true,
       fillOpacity: "0.4"
     }
@@ -306,10 +306,13 @@ var Legend2 = L.control.Legend({
     {
       label: "Above 3000",
       type: "circle",
-      radius: 16,
-      color: "black",
+      radius: 18,
+      color: "blue",
       fill: true,
       fillOpacity: "0.4"
     }
 ]
 }).addTo(map2);
+
+// add scale bar
+L.control.scale().addTo(map2);

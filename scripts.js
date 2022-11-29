@@ -216,7 +216,7 @@ var skiStats2 = L.geoJSON(resorts, {
       else if (feature.properties.acres <= 400) circleSize = 8;
       else if (feature.properties.acres <= 500) circleSize = 10;
       else if (feature.properties.acres <= 700) circleSize = 12;
-      else if (feature.properties.acres <= 1000) circleSize = 14;
+      else if (feature.properties.acres <= 1500) circleSize = 14;
       else if (feature.properties.acres <= 3000) circleSize = 16;
       else if (feature.properties.acres <= 8000) circleSize = 18;
       else circleSize = 0;
@@ -272,7 +272,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "200-300",
+      label: "201-300",
       type: "circle",
       radius: 6,
       color: "blue",
@@ -280,7 +280,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "300-400",
+      label: "301-400",
       type: "circle",
       radius: 8,
       color: "blue",
@@ -288,7 +288,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "400-500",
+      label: "401-500",
       type: "circle",
       radius: 10,
       color: "blue",
@@ -296,7 +296,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "500-700",
+      label: "501-700",
       type: "circle",
       radius: 12,
       color: "blue",
@@ -304,7 +304,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "700-1000",
+      label: "701-1500",
       type: "circle",
       radius: 14,
       color: "blue",
@@ -312,7 +312,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "1000-3000",
+      label: "1501-3000",
       type: "circle",
       radius: 16,
       color: "blue",
@@ -527,7 +527,7 @@ var Legend4 = L.control.Legend({
   title: "Vertical",
   opacity:0.50,
   symbolWidth: 50,
-  symbolHeight: 50,
+  symbolHeight: 55,
   collapsed: true,
   legends: [
     {
@@ -600,3 +600,70 @@ var Legend4 = L.control.Legend({
 
 // add scale bar
 L.control.scale().addTo(map4);
+
+// map 5
+
+// Add basemap
+ // OpenStreetMap layer
+ var OSM5 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
+// OpenTopoMap layer
+var OpenTopoMap5 = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	  maxZoom: 17,
+	  attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+// Esri Satellite
+var Esri_WorldImagery5 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+ });
+
+// ski resorts layers added
+var skiResorts5 = L.geoJSON(resorts, {
+  pointToLayer: function (feature, latlng) {
+    var marker = L.marker(latlng);
+    marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Vertical: </b>" + feature.properties.vertical + "</p>");
+    return marker;
+  }
+});
+
+var cfg = {
+  // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+  // if scaleRadius is false it will be the constant radius used in pixels
+  "radius": 0.5,
+  "maxOpacity": .8,
+  // scales the radius based on map zoom
+  "scaleRadius": true,
+  // if set to false the heatmap uses the global maximum for colorization
+  // if activated: uses the data maximum within the current map boundaries
+  //   (there will always be a red spot with useLocalExtremas true)
+  "useLocalExtrema": true,
+  // which field name in your data represents the latitude - default "lat"
+  latField: 'lat',
+  // which field name in your data represents the longitude - default "lng"
+  lngField: 'lon',
+  // which field name in your data represents the data value - default "value"
+  valueField: 'acres'
+};
+
+var heatmapLayer = new HeatmapOverlay(cfg);
+
+
+ // Initialize map
+var map5 = L.map('map5', {
+  center: [50.10138520851064, -101.461714911189],
+  zoom: 3,
+  layers: [OSM5, heatmapLayer]
+});
+
+var layerControl5 = L.control.layers({
+  "OpenStreetMap": OSM5,
+  "OSM Topo": OpenTopoMap5,
+  "Esri World Imagery": Esri_WorldImagery5
+}, {
+  "Ski Resorts": skiResorts5,
+  "Heatmap": heatmapLayer 
+}, {
+  
+}).addTo(map5);

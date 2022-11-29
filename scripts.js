@@ -90,7 +90,9 @@ var layercontrol = L.control.layers({
 var Legend = L.control.Legend({
   position: "bottomleft",
   title: "Opened",
-  opacity:0.85,
+  opacity:0.50,
+  symbolWidth: 30,
+  collapsed: true,
   legends: [
     {
       label: "Before 1950",
@@ -166,22 +168,22 @@ L.control.scale().addTo(map);
 /*Legend specific*/
 var legend = L.control({ position: "bottomright" });
 
-legend.onAdd = function(map) {
-  var div = L.DomUtil.create("div", "legend");
-  div.innerHTML += "<h4>Tegnforklaring</h4>";
-  div.innerHTML += '<i style="background: #477AC2"></i><span>Water</span><br>';
-  div.innerHTML += '<i style="background: #448D40"></i><span>Forest</span><br>';
-  div.innerHTML += '<i style="background: #E6E696"></i><span>Land</span><br>';
-  div.innerHTML += '<i style="background: #E8E6E0"></i><span>Residential</span><br>';
-  div.innerHTML += '<i style="background: #FFFFFF"></i><span>Ice</span><br>';
-  div.innerHTML += '<i class="icon" style="background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/194515-200.png);background-repeat: no-repeat;"></i><span>Grænse</span><br>';
+// legend.onAdd = function(map) {
+//   var div = L.DomUtil.create("div", "legend");
+//   div.innerHTML += "<h4>Tegnforklaring</h4>";
+//   div.innerHTML += '<i style="background: #477AC2"></i><span>Water</span><br>';
+//   div.innerHTML += '<i style="background: #448D40"></i><span>Forest</span><br>';
+//   div.innerHTML += '<i style="background: #E6E696"></i><span>Land</span><br>';
+//   div.innerHTML += '<i style="background: #E8E6E0"></i><span>Residential</span><br>';
+//   div.innerHTML += '<i style="background: #FFFFFF"></i><span>Ice</span><br>';
+//   div.innerHTML += '<i class="icon" style="background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/194515-200.png);background-repeat: no-repeat;"></i><span>Grænse</span><br>';
   
   
 
-  return div;
-};
+//   return div;
+// };
 
-legend.addTo(map);
+// legend.addTo(map);
 
 
 
@@ -248,8 +250,9 @@ var layerControl2 = L.control.layers({
 var Legend2 = L.control.Legend({
   position: "bottomleft",
   title: "Acres",
-  opacity:0.75,
-  symbolWidth: 30,
+  opacity:0.50,
+  symbolWidth: 50,
+  symbolHeight: 40,
   collapsed: true,
   legends: [
     {
@@ -354,8 +357,7 @@ var Esri_WorldImagery3 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/res
 var skiStats3 = L.geoJSON(resorts, {
   pointToLayer: function (feature, latlng) {
     var circleSize;      
-    if (feature.properties.lifts <= 3) circleSize = 2;
-    else if (feature.properties.lifts <= 5) circleSize = 4;
+    if (feature.properties.lifts <= 5) circleSize = 4;
     else if (feature.properties.lifts <= 8) circleSize = 6;
     else if (feature.properties.lifts <= 10) circleSize = 8;
     else if (feature.properties.lifts <= 15) circleSize = 10;
@@ -392,18 +394,13 @@ var layerControl3 = L.control.layers({
 var Legend3 = L.control.Legend({
   position: "bottomleft",
   title: "Lifts",
-  opacity:0.75,
+  opacity:0.50,
+  symbolWidth: 50,
+  symbolHeight: 40,
+  collapsed: true,
   legends: [
     {
-      label: "Below 3",
-      type: "circle",
-      radius: 2,
-      color: "blue",
-      fill: true,
-      fillOpacity: "0.4"
-    },
-    {
-      label: "4-5",
+      label: "Below 5",
       type: "circle",
       radius: 4,
       color: "blue",
@@ -464,3 +461,142 @@ var Legend3 = L.control.Legend({
 
 // add scale bar
 L.control.scale().addTo(map3);
+
+
+// map 4
+
+// Add basemap
+ // OpenStreetMap layer
+ var OSM4 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
+// OpenTopoMap layer
+var OpenTopoMap4 = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	  maxZoom: 17,
+	  attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+// Esri Satellite
+var Esri_WorldImagery4 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+ });
+
+
+// stats layers added
+var skiStats4 = L.geoJSON(resorts, {
+  pointToLayer: function (feature, latlng) {
+    var circleSize;      
+    if (feature.properties.vertical <= 1000) circleSize = 4;
+    else if (feature.properties.vertical <= 1500) circleSize = 6;
+    else if (feature.properties.vertical <= 2000) circleSize = 8;
+    else if (feature.properties.vertical <= 2500) circleSize = 10;
+    else if (feature.properties.vertical <= 3000) circleSize = 12;
+    else if (feature.properties.vertical <= 3500) circleSize = 14;
+    else if (feature.properties.vertical <= 4000) circleSize = 16;
+    else if (feature.properties.vertical > 4000) circleSize = 18;
+    else circleSize = 0;
+    
+    var marker = L.circleMarker(latlng, {radius: circleSize, color: 'blue', weight: 1, opacity: 4, fillOpacity: 0.3});
+    marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Vertical: </b>" + feature.properties.vertical + "</p>");
+    return marker;
+  }
+});
+
+
+// Initialize map
+var map4 = L.map('map4', {
+  center: [50.10138520851064, -101.461714911189],
+  zoom: 3,
+  layers: [OSM4, skiStats4]
+});
+
+var layerControl4 = L.control.layers({
+  "OpenStreetMap": OSM4,
+  "OSM Topo": OpenTopoMap4,
+  "Esri World Imagery": Esri_WorldImagery4
+}, {
+  "Ski Resorts": skiStats4
+}, {
+  
+}).addTo(map4);
+
+
+// ski resort acres circle size legend
+var Legend4 = L.control.Legend({
+  position: "bottomleft",
+  title: "Vertical",
+  opacity:0.50,
+  symbolWidth: 50,
+  symbolHeight: 50,
+  collapsed: true,
+  legends: [
+    {
+      label: "Below 1000",
+      type: "circle",
+      radius: 4,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "1001-1500",
+      type: "circle",
+      radius: 6,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "1501-2000",
+      type: "circle",
+      radius: 8,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "2001-2500",
+      type: "circle",
+      radius: 10,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "2501-3000",
+      type: "circle",
+      radius: 12,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "3001-3500",
+      type: "circle",
+      radius: 14,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "3501-4000",
+      type: "circle",
+      radius: 16,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "Above 4000",
+      type: "circle",
+      radius: 16,
+      color: "blue",
+      fill: true,
+      fillOpacity: "0.4"
+    }
+    
+]
+}).addTo(map4);
+
+// add scale bar
+L.control.scale().addTo(map4);

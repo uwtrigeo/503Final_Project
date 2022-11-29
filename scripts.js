@@ -493,7 +493,7 @@ var skiStats4 = L.geoJSON(resorts, {
     else if (feature.properties.vertical <= 3000) circleSize = 12;
     else if (feature.properties.vertical <= 3500) circleSize = 14;
     else if (feature.properties.vertical <= 4000) circleSize = 16;
-    else if (feature.properties.vertical > 4000) circleSize = 18;
+    else if (feature.properties.vertical > 4000) circleSize = 20;
     else circleSize = 0;
     
     var marker = L.circleMarker(latlng, {radius: circleSize, color: 'blue', weight: 1, opacity: 4, fillOpacity: 0.3});
@@ -589,7 +589,7 @@ var Legend4 = L.control.Legend({
     {
       label: "Above 4000",
       type: "circle",
-      radius: 18,
+      radius: 20,
       color: "blue",
       fill: true,
       fillOpacity: "0.4"

@@ -32,38 +32,36 @@ var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest
 var skiStats = L.geoJSON(resorts, {
   pointToLayer: function (feature, latlng) {
       var circleColor;
-      if (feature.properties.year_opened <= 1950) {
-          circleColor = "#ff0000";
-      } else if (feature.properties.year_opened <= 1960) {
-          circleColor = "#ff7800";
-      } else if (feature.properties.year_opened <= 1970) {
-          circleColor = "#ffbf00";
-      } else if (feature.properties.year_opened <= 1980) {
-          circleColor = "#ffff00";
-      } else if (feature.properties.year_opened <= 1990) {
-          circleColor = "#bfff00";
-      } else if (feature.properties.year_opened <= 2000) {
-          circleColor = "#00ff00";
-      } else if (feature.properties.year_opened > 2000) {
-          circleColor = "#ADD8E6";
-      } else if (feature.properties.year_opened == "#N/A") {
-          circleColor = "#000000";
+      if (feature.properties.year_opened <= 1950) circleColor = "#ff0000";
+      else if (feature.properties.year_opened <= 1960) circleColor = "#ff7800";
+      else if (feature.properties.year_opened <= 1970) circleColor = "#ffbf00";
+      else if (feature.properties.year_opened <= 1980) circleColor = "#ffff00";
+      else if (feature.properties.year_opened <= 1990) circleColor = "#bfff00";
+      else if (feature.properties.year_opened <= 2000) circleColor = "#00ff00";
+      else if (feature.properties.year_opened > 2000)  circleColor = "#ADD8E6";
+      else circleColor = "#000000";
 
-      }
       var skiStatsStyle = {
-          radius: 8,
-          fillColor: circleColor,
-          color: "#000",
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 0.8
+        radius: 8,
+        fillColor: circleColor,
+        color: "#000",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
       };
       return L.circleMarker(latlng, skiStatsStyle);
-  },
-  onEachFeature: function (feature, layer) {
-      layer.bindPopup("<p> Resort Name: " + feature.properties.resort_name + "<br> Year Opened: " + feature.properties.year_opened + "</p>");
-  }
+    },
+    onEachFeature: function (feature, layer) {
+      layer.bindPopup("<b>" + feature.properties.name + "</b><br>" + feature.properties.year_opened);
+   }
+
 });
+
+
+
+// cluster resorts
+var clusters = L.markerClusterGroup();
+clusters.addLayer(skiStats);
 
 
 
@@ -71,7 +69,7 @@ var skiStats = L.geoJSON(resorts, {
 var map = L.map('map', {
   center: [50.10138520851064, -101.461714911189],
   zoom: 3,
-  layers: [Esri_WorldImagery, skiStats]
+  layers: [OSM, skiStats]
 });
 
 var layercontrol = L.control.layers({
@@ -79,46 +77,86 @@ var layercontrol = L.control.layers({
   "OSM Topo": OpenTopoMap,
   "Esri World Imagery": Esri_WorldImagery
 }, {
-  "Ski Resorts": skiStats
+  "Ski Resorts": skiStats,
+  "Resorts Clustered": clusters,
+  // "Heat Map": heat
 }, {
   
 }).addTo(map);
 
 // ski resort opened legend
-
-// ski resort opened legend with map
-// var legend = L.control({ position: "bottomleft" });
-
-// legend.onAdd = function(map) {
-//   var div = L.DomUtil.create("div", "legend");
-//   div.innerHTML += "<h4>Year Opened</h4>";
-//   div.innerHTML += '<i style="background: #ff0000"></i><span>Before 1950</span><br>';
-//   div.innerHTML += '<i style="background: #ff7800"></i><span>1950-1960</span><br>';
-//   div.innerHTML += '<i style="background: #ffbf00"></i><span>1960-1970</span><br>';
-//   div.innerHTML += '<i style="background: #ffff00"></i><span>1970-1980</span><br>';
-//   div.innerHTML += '<i style="background: #bfff00"></i><span>1980-1990</span><br>';
-//   div.innerHTML += '<i style="background: #00ff00"></i><span>1990-2000</span><br>';
-//   div.innerHTML += '<i style="background: #ADD8E6"></i><span>After 2000</span><br>';
-//   div.innerHTML += '<i style="background: #000000"></i><span>N/A</span><br>';
-
-//   return div;
-// };
-
-// legend.addTo(map);
-
-var legend = L.control({position: 'bottomleft'});
-    legend.onAdd = function (map) {
-      var div = L.DomUtil.create('div', 'info legend');
-      var labels = ["<h4>Year Opened</h4>"];
-      var categories = ['Before 1950', '1950-1960', '1960-1970', '1970-1980', '1980-1990', '1990-2000', 'After 2000', 'N/A'];
-      var colors = ['#ff0000', '#ff7800', '#ffbf00', '#ffff00', '#bfff00', '#00ff00', '#ADD8E6', '#000000'];
-      div.innerHTML += labels;
-      for (var i = 0; i < categories.length; i++) {
-        div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + categories[i] + '<br>';
-      }
-      return div;
-    };
-legend.addTo(map);
+var Legend = L.control.Legend({
+  position: "bottomleft",
+  title: "Year Opened",
+  opacity:0.75,
+  legends: [
+    {
+      label: "Before 1950",
+      type: "circle",
+      radius: 8,
+      color: "#ff0000",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "1950-1960",
+      type: "circle",
+      radius: 8,
+      color: "#ff7800",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "1960-1970",
+      type: "circle",
+      radius: 8,
+      color: "#ffbf00",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "1970-1980",
+      type: "circle",
+      radius: 8,
+      color: "#ffff00",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "1980-1990",
+      type: "circle",
+      radius: 8,
+      color: "#bfff00",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "1990-2000",
+      type: "circle",
+      radius: 8,
+      color: "#00ff00",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "After 2000",
+      type: "circle",
+      radius: 8,
+      color: "#ADD8E6",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "NA",
+      type: "circle",
+      radius: 8,
+      color: "black",
+      fill: true,
+      fillOpacity: "0.4"
+    }
+    
+]
+}).addTo(map);
 
 // add scale bar
 L.control.scale().addTo(map);
@@ -147,20 +185,40 @@ var Esri_WorldImagery2 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/res
 // stats layers added
 var skiStats2 = L.geoJSON(resorts, {
     pointToLayer: function (feature, latlng) {
-    return L.circleMarker(latlng, {
-    style: myStyle,
-    });
-  },
-  onEachFeature: function (feature, layer) {
-    layer.bindPopup("<p> Resort Name: " + feature.properties.resort_name + "<br> Total acres: " + feature.properties.acres + "</p>");
-  }
-});
+      var circleSize;      
+      if (feature.properties.acres <= 100) circleSize = 2;
+      else if (feature.properties.acres <= 200) circleSize = 4;
+      else if (feature.properties.acres <= 300) circleSize = 6;
+      else if (feature.properties.acres <= 400) circleSize = 8;
+      else if (feature.properties.acres <= 500) circleSize = 10;
+      else if (feature.properties.acres <= 700) circleSize = 12;
+      else if (feature.properties.acres <= 1000) circleSize = 14;
+      else if (feature.properties.acres <= 3000) circleSize = 16;
+      else if (feature.properties.acres <= 8000) circleSize = 18;
+      else circleSize = 0;
+      
+      var marker = L.circleMarker(latlng, {radius: circleSize, color: 'blue', weight: 1, opacity: 4, fillOpacity: 0.3});
+      marker.bindPopup("<p> Resort Name: " + feature.properties.resort_name + "<br> Acres: " + feature.properties.acres + "</p>");
+      return marker;
+    }
+  });
+
+        
+
+//     return L.circleMarker(latlng, {
+//     // style: myStyle,
+//     });
+//   },
+//   onEachFeature: function (feature, layer) {
+//     layer.bindPopup("<p> Resort Name: " + feature.properties.resort_name + "<br> Total acres: " + feature.properties.acres + "</p>");
+//   }
+// });
 
 // Initialize map
 var map2 = L.map('map2', {
   center: [50.10138520851064, -101.461714911189],
   zoom: 3,
-  layers: [Esri_WorldImagery2, skiStats2]
+  layers: [OSM2, skiStats2]
 });
 
 layercontrol2 = L.control.layers({
@@ -174,4 +232,84 @@ layercontrol2 = L.control.layers({
 }).addTo(map2);
 
 
-
+// ski resort acres circle size legend
+var Legend2 = L.control.Legend({
+  position: "bottomleft",
+  title: "Resort Acres",
+  opacity:0.75,
+  legends: [
+    {
+      label: "Below 100",
+      type: "circle",
+      radius: 2,
+      color: "black",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "100-200",
+      type: "circle",
+      radius: 4,
+      color: "black",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "200-300",
+      type: "circle",
+      radius: 6,
+      color: "black",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "300-400",
+      type: "circle",
+      radius: 8,
+      color: "black",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "400-500",
+      type: "circle",
+      radius: 10,
+      color: "black",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "500-700",
+      type: "circle",
+      radius: 12,
+      color: "black",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "700-1000",
+      type: "circle",
+      radius: 14,
+      color: "black",
+      fill: true,
+      fillOpacity: "0.4"
+    },
+    {
+      label: "1000-3000",
+      type: "circle",
+      radius: 16,
+      color: "black",
+      fill: true,
+      fillOpacity: "0.4"
+    }
+    ,
+    {
+      label: "Above 3000",
+      type: "circle",
+      radius: 16,
+      color: "black",
+      fill: true,
+      fillOpacity: "0.4"
+    }
+]
+}).addTo(map2);

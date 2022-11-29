@@ -527,7 +527,7 @@ var Legend4 = L.control.Legend({
   title: "Vertical",
   opacity:0.50,
   symbolWidth: 50,
-  symbolHeight: 55,
+  symbolHeight: 40,
   collapsed: true,
   legends: [
     {
@@ -589,7 +589,7 @@ var Legend4 = L.control.Legend({
     {
       label: "Above 4000",
       type: "circle",
-      radius: 16,
+      radius: 18,
       color: "blue",
       fill: true,
       fillOpacity: "0.4"
@@ -622,16 +622,14 @@ var Esri_WorldImagery5 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/res
 // ski resorts layers added
 var skiResorts5 = L.geoJSON(resorts, {
   pointToLayer: function (feature, latlng) {
-    var marker = L.marker(latlng);
-    marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Vertical: </b>" + feature.properties.vertical + "</p>");
-    return marker;
   }
 });
 
+// leaflet-heat
 var cfg = {
   // radius should be small ONLY if scaleRadius is true (or small radius is intended)
   // if scaleRadius is false it will be the constant radius used in pixels
-  "radius": 0.5,
+  "radius": 5,
   "maxOpacity": .8,
   // scales the radius based on map zoom
   "scaleRadius": true,
@@ -647,23 +645,16 @@ var cfg = {
   valueField: 'acres'
 };
 
+
 var heatmapLayer = new HeatmapOverlay(cfg);
 
-
- // Initialize map
+// Initialize map
 var map5 = L.map('map5', {
   center: [50.10138520851064, -101.461714911189],
   zoom: 3,
   layers: [OSM5, heatmapLayer]
+
+
 });
 
-var layerControl5 = L.control.layers({
-  "OpenStreetMap": OSM5,
-  "OSM Topo": OpenTopoMap5,
-  "Esri World Imagery": Esri_WorldImagery5
-}, {
-  "Ski Resorts": skiResorts5,
-  "Heatmap": heatmapLayer 
-}, {
-  
-}).addTo(map5);
+heatmapLayer.setData(skiResorts5);

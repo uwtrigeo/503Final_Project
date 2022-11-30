@@ -1,0 +1,31 @@
+{
+    "storymap": {
+        "call_to_action": true, 
+        "call_to_action_text": "", 
+        "map_as_image": false, 
+        "slides": [{
+            "date": "", "location": {"line": true},
+            "media": {"caption": "", "credit": "", "url": ""},
+            "text": {"headline": "", "text": ""}, 
+            "type": "overview"
+        }, 
+        {"date": "", 
+            "location": {
+                "lat": 43.696176153756106, "line": true,
+                "lon": -114.35325622558594, 
+                "use_custom_marker": false, 
+                "zoom": 12
+                }, 
+            "media": {
+                "caption": "",
+                "credit": "", 
+                "url": "//uploads.knightlab.com/storymapjs/fa5e1a4a3d03551728d2082c310f86f5/finallab/_images/208763-Sun-Valley.jpg"
+                }, 
+            "text": {
+                "headline": "Oldest ski resort", 
+                "text": "Sun Valley ID"
+                }
+        }, 
+        {"date": "", "location": {"lat": 39.317778, "line": true, "lon": -120.436261, "use_custom_marker": false, "zoom": 12}, "media": {"caption": "", "credit": "", "url": ""}, "text": {"headline": "Newest ski resort", "text": "Snow Schoolers Kingvale"}}, {"date": "", "location": {"lat": 45.258964, "line": true, "lon": -111.308725, "use_custom_marker": false, "zoom": 12}, "media": {"caption": "", "credit": "", "url": ""}, "text": {"headline": "biggest ski resort", "text": "Big sky Montana tied as biggest ski resort in the US with Park City"}}, {"date": "", "location": {"lat": 40.646064, "line": true, "lon": -111.497974, "use_custom_marker": false, "zoom": 12}, "media": {"caption": "", "credit": "", "url": ""}, "text": {"headline": "biggest ski resort", "text": "Park city UT tied biggest ski resort in the USA."}}, {"date": "", "location": {"lat": 48.86539231071163, "line": true, "lon": -121.66088104248047, "use_custom_marker": false, "zoom": 12}, "media": {"caption": "", "credit": "", "url": ""}, "text": {"headline": "Most snowfall in a single season", "text": "Mt Baker ski resort holds the highest season resort snowfall record.&nbsp;<span>1,140 inches in the&nbsp;</span>winter of 1998-99"}}, {"date": "", "location": {"lat": 43.587279181149405, "line": true, "lon": -110.82757547877272, "use_custom_marker": false, "zoom": 15}, "media": {"caption": "", "credit": "", "url": ""}, "text": {"headline": "Largest vertical in the USA", "text": "Jackson Hole ski resort has a vertical drop of&nbsp;<span>4,105 feet</span>"}}, {"date": "", "location": {"lat": 39.60485488457959, "line": true, "lon": -106.35648447993316, "use_custom_marker": false, "zoom": 15}, "media": {"caption": "", "credit": "", "url": ""}, "text": {"headline": "Busiest ski resort", "text": "Vail is the busiest ski resort in the US"}}]
+    }
+}

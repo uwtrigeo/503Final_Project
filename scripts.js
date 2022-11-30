@@ -585,8 +585,8 @@ $.get('data/skiLatLong.csv', function(csvString) {
   var heat = L.heatLayer(data, {
     radius: 10,
     blur: 5,
-    maxOpacity: 5.5,
-    scalRadius: true,
+    // maxOpacity: .8,
+    scalRadius: false,
     useLocalExtrema: true,
 
   })
@@ -600,3 +600,16 @@ L.control.attribution({
   prefix: '<a href="https://github.com/HandsOnDataViz/leaflet-heatmap">View data and code</a> \
     by <a href="https://handsondataviz.org" target="_blank">HandsOnDataViz</a>'
 }).addTo(map5)
+
+// Map 6
+
+// // storymap_data can be an URL or a Javascript object
+// var storymap_data = 'https://uploads.knightlab.com/storymapjs/fa5e1a4a3d03551728d2082c310f86f5/finallab/index.html';
+
+// // certain settings must be passed within a separate options object
+// var storymap_options = {};
+
+// var storymap = new KLStoryMap.StoryMap('map6', storymap_data, storymap_options);
+// window.onresize = function(event) {
+//     storymap.updateDisplay(); // this isn't automatic
+// }

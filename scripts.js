@@ -283,7 +283,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "Above 3000",
+      label: "2001-3000",
       type: "circle",
       radius: 14,
       color: "blue",

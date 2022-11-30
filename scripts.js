@@ -1,7 +1,5 @@
 
 // Map 1
-// Initialize map
-// var map = L.map('map').setView([50.10138520851064, -101.461714911189], 3);
 
 var myStyle = {
   radius: 8,
@@ -69,8 +67,8 @@ clusters.addLayer(skiStats);
 
 // Initialize map
 var map = L.map('map', {
-  center: [50.10138520851064, -101.461714911189],
-  zoom: 3,
+  center: [50.88629, -106.58909],
+  zoom: 4,
   layers: [OSM, skiStats]
 });
 
@@ -187,7 +185,7 @@ var legend = L.control({ position: "bottomright" });
 
 
 
-// map 2
+// Map 2
 
 // Add basemap
  // OpenStreetMap layer
@@ -211,14 +209,11 @@ var skiStats2 = L.geoJSON(resorts, {
     pointToLayer: function (feature, latlng) {
       var circleSize;      
       if (feature.properties.acres <= 100) circleSize = 2;
-      else if (feature.properties.acres <= 200) circleSize = 4;
-      else if (feature.properties.acres <= 300) circleSize = 6;
-      else if (feature.properties.acres <= 400) circleSize = 8;
-      else if (feature.properties.acres <= 500) circleSize = 10;
-      else if (feature.properties.acres <= 700) circleSize = 12;
-      else if (feature.properties.acres <= 1500) circleSize = 14;
-      else if (feature.properties.acres <= 3000) circleSize = 16;
-      else if (feature.properties.acres <= 8000) circleSize = 18;
+      else if (feature.properties.acres <= 300) circleSize = 4;
+      else if (feature.properties.acres <= 800) circleSize = 6;
+      else if (feature.properties.acres <= 2000) circleSize = 10;
+      else if (feature.properties.acres <= 3000) circleSize = 14;
+      else if (feature.properties.acres <= 7500) circleSize = 18;
       else circleSize = 0;
       
       var marker = L.circleMarker(latlng, {radius: circleSize, color: 'blue', weight: 1, opacity: 4, fillOpacity: 0.3});
@@ -230,8 +225,8 @@ var skiStats2 = L.geoJSON(resorts, {
 
 // Initialize map
 var map2 = L.map('map2', {
-  center: [50.10138520851064, -101.461714911189],
-  zoom: 3,
+  center: [50.88629, -106.58909],
+  zoom: 4,
   layers: [OSM2, skiStats2]
 });
 
@@ -251,12 +246,12 @@ var Legend2 = L.control.Legend({
   position: "bottomleft",
   title: "Acres",
   opacity:0.50,
-  symbolWidth: 50,
+  symbolWidth: 55,
   symbolHeight: 40,
   collapsed: true,
   legends: [
     {
-      label: "Below 100",
+      label: "0-100",
       type: "circle",
       radius: 2,
       color: "blue",
@@ -264,7 +259,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "100-200",
+      label: "101-300",
       type: "circle",
       radius: 4,
       color: "blue",
@@ -272,7 +267,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "201-300",
+      label: "301-800",
       type: "circle",
       radius: 6,
       color: "blue",
@@ -280,15 +275,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "301-400",
-      type: "circle",
-      radius: 8,
-      color: "blue",
-      fill: true,
-      fillOpacity: "0.4"
-    },
-    {
-      label: "401-500",
+      label: "801-2000",
       type: "circle",
       radius: 10,
       color: "blue",
@@ -296,15 +283,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "501-700",
-      type: "circle",
-      radius: 12,
-      color: "blue",
-      fill: true,
-      fillOpacity: "0.4"
-    },
-    {
-      label: "701-1500",
+      label: "Above 3000",
       type: "circle",
       radius: 14,
       color: "blue",
@@ -312,15 +291,7 @@ var Legend2 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "1501-3000",
-      type: "circle",
-      radius: 16,
-      color: "blue",
-      fill: true,
-      fillOpacity: "0.4"
-    }    ,
-    {
-      label: "Above 3000",
+      label: "3001-7300",
       type: "circle",
       radius: 18,
       color: "blue",
@@ -358,11 +329,11 @@ var skiStats3 = L.geoJSON(resorts, {
   pointToLayer: function (feature, latlng) {
     var circleSize;      
     if (feature.properties.lifts <= 5) circleSize = 4;
-    else if (feature.properties.lifts <= 8) circleSize = 6;
-    else if (feature.properties.lifts <= 10) circleSize = 8;
-    else if (feature.properties.lifts <= 15) circleSize = 10;
-    else if (feature.properties.lifts <= 20) circleSize = 12;
+    else if (feature.properties.lifts <= 10) circleSize = 6;
+    else if (feature.properties.lifts <= 15) circleSize = 8;
+    else if (feature.properties.lifts <= 20) circleSize = 10;
     else if (feature.properties.lifts <= 30) circleSize = 14;
+    else if (feature.properties.lifts > 30) circleSize = 18;
     else circleSize = 0;
     
     var marker = L.circleMarker(latlng, {radius: circleSize, color: 'blue', weight: 1, opacity: 4, fillOpacity: 0.3});
@@ -374,8 +345,8 @@ var skiStats3 = L.geoJSON(resorts, {
 
 // Initialize map
 var map3 = L.map('map3', {
-  center: [50.10138520851064, -101.461714911189],
-  zoom: 3,
+  center: [50.88629, -106.58909],
+  zoom: 4,
   layers: [OSM3, skiStats3]
 });
 
@@ -400,7 +371,7 @@ var Legend3 = L.control.Legend({
   collapsed: true,
   legends: [
     {
-      label: "Below 5",
+      label: "0-5",
       type: "circle",
       radius: 4,
       color: "blue",
@@ -408,7 +379,7 @@ var Legend3 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "6-8",
+      label: "6-10",
       type: "circle",
       radius: 6,
       color: "blue",
@@ -416,7 +387,7 @@ var Legend3 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "9-10",
+      label: "11-15",
       type: "circle",
       radius: 8,
       color: "blue",
@@ -424,17 +395,9 @@ var Legend3 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "11-15",
-      type: "circle",
-      radius: 10,
-      color: "blue",
-      fill: true,
-      fillOpacity: "0.4"
-    },
-    {
       label: "16-20",
       type: "circle",
-      radius: 12,
+      radius: 10,
       color: "blue",
       fill: true,
       fillOpacity: "0.4"
@@ -450,12 +413,11 @@ var Legend3 = L.control.Legend({
     {
       label: "Above 30",
       type: "circle",
-      radius: 16,
+      radius: 18,
       color: "blue",
       fill: true,
       fillOpacity: "0.4"
-    }
-    
+    }    
 ]
 }).addTo(map3);
 
@@ -486,12 +448,10 @@ var Esri_WorldImagery4 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/res
 var skiStats4 = L.geoJSON(resorts, {
   pointToLayer: function (feature, latlng) {
     var circleSize;      
-    if (feature.properties.vertical <= 1000) circleSize = 4;
-    else if (feature.properties.vertical <= 1500) circleSize = 6;
+    if (feature.properties.vertical <= 500) circleSize = 4;
+    else if (feature.properties.vertical <= 1000) circleSize = 6;
     else if (feature.properties.vertical <= 2000) circleSize = 8;
-    else if (feature.properties.vertical <= 2500) circleSize = 10;
     else if (feature.properties.vertical <= 3000) circleSize = 12;
-    else if (feature.properties.vertical <= 3500) circleSize = 14;
     else if (feature.properties.vertical <= 4000) circleSize = 16;
     else if (feature.properties.vertical > 4000) circleSize = 20;
     else circleSize = 0;
@@ -506,7 +466,7 @@ var skiStats4 = L.geoJSON(resorts, {
 // Initialize map
 var map4 = L.map('map4', {
   center: [50.10138520851064, -101.461714911189],
-  zoom: 3,
+  zoom: 4,
   layers: [OSM4, skiStats4]
 });
 
@@ -531,7 +491,7 @@ var Legend4 = L.control.Legend({
   collapsed: true,
   legends: [
     {
-      label: "Below 1000",
+      label: "0-500",
       type: "circle",
       radius: 4,
       color: "blue",
@@ -539,7 +499,7 @@ var Legend4 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "1001-1500",
+      label: "501-1000",
       type: "circle",
       radius: 6,
       color: "blue",
@@ -547,7 +507,7 @@ var Legend4 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "1501-2000",
+      label: "1001-2000",
       type: "circle",
       radius: 8,
       color: "blue",
@@ -555,15 +515,7 @@ var Legend4 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "2001-2500",
-      type: "circle",
-      radius: 10,
-      color: "blue",
-      fill: true,
-      fillOpacity: "0.4"
-    },
-    {
-      label: "2501-3000",
+      label: "2001-3000",
       type: "circle",
       radius: 12,
       color: "blue",
@@ -571,15 +523,7 @@ var Legend4 = L.control.Legend({
       fillOpacity: "0.4"
     },
     {
-      label: "3001-3500",
-      type: "circle",
-      radius: 14,
-      color: "blue",
-      fill: true,
-      fillOpacity: "0.4"
-    },
-    {
-      label: "3501-4000",
+      label: "3001-4000",
       type: "circle",
       radius: 16,
       color: "blue",
@@ -650,8 +594,8 @@ var heatmapLayer = new HeatmapOverlay(cfg);
 
 // Initialize map
 var map5 = L.map('map5', {
-  center: [50.10138520851064, -101.461714911189],
-  zoom: 3,
+  center: [50.88629, -106.58909],
+  zoom: 4,
   layers: [OSM5, heatmapLayer]
 
 

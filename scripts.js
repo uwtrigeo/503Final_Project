@@ -465,7 +465,7 @@ var skiStats4 = L.geoJSON(resorts, {
 
 // Initialize map
 var map4 = L.map('map4', {
-  center: [50.10138520851064, -101.461714911189],
+  center: [50.88629, -106.58909],
   zoom: 4,
   layers: [OSM4, skiStats4]
 });
@@ -547,58 +547,56 @@ L.control.scale().addTo(map4);
 
 // map 5
 
-// Add basemap
- // OpenStreetMap layer
- var OSM5 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  });
-// OpenTopoMap layer
-var OpenTopoMap5 = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-	  maxZoom: 17,
-	  attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-});
-// Esri Satellite
-var Esri_WorldImagery5 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
- });
-
-// ski resorts layers added
-var skiResorts5 = L.geoJSON(resorts, {
-  pointToLayer: function (feature, latlng) {
-  }
-});
-
-// leaflet-heat
-var cfg = {
-  // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-  // if scaleRadius is false it will be the constant radius used in pixels
-  "radius": 5,
-  "maxOpacity": .8,
-  // scales the radius based on map zoom
-  "scaleRadius": true,
-  // if set to false the heatmap uses the global maximum for colorization
-  // if activated: uses the data maximum within the current map boundaries
-  //   (there will always be a red spot with useLocalExtremas true)
-  "useLocalExtrema": true,
-  // which field name in your data represents the latitude - default "lat"
-  latField: 'lat',
-  // which field name in your data represents the longitude - default "lng"
-  lngField: 'lon',
-  // which field name in your data represents the data value - default "value"
-  valueField: 'acres'
-};
-
-
-var heatmapLayer = new HeatmapOverlay(cfg);
-
-// Initialize map
 var map5 = L.map('map5', {
-  center: [50.88629, -106.58909],
-  zoom: 4,
-  layers: [OSM5, heatmapLayer]
+    center: [50.88629, -106.58909], // Initial map center
+    zoom: 4, // Initial zoom level
+    attributionControl: false, // Instead of default attribution, we add custom at the bottom of script
+  
+})
 
 
-});
 
-heatmapLayer.setData(skiResorts5);
+// Add baselayer
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map5)
+
+// Add geographical labels only layer on top of baselayer
+var labels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19,
+  pane: 'shadowPane'  // always display on top
+}).addTo(map5)
+
+// Read data from CSV file
+$.get('data/skiLatLong.csv', function(csvString) {
+
+  // Use PapaParse to transform file into arrays
+  var data = Papa.parse(csvString.trim()).data.filter(
+    function(row) { return row.length === 2 }
+  ).map(function(a) {
+    return [ parseFloat(a[0]), parseFloat(a[1]) ]
+  })
+
+  // Add all points into a heat layer
+  var heat = L.heatLayer(data, {
+    radius: 10,
+    blur: 5,
+    maxOpacity: 5.5,
+    scalRadius: true,
+    useLocalExtrema: true,
+
+  })
+
+  // Add the heatlayer to the map
+  heat.addTo(map5)
+})
+
+// Add custom attribution
+L.control.attribution({
+  prefix: '<a href="https://github.com/HandsOnDataViz/leaflet-heatmap">View data and code</a> \
+    by <a href="https://handsondataviz.org" target="_blank">HandsOnDataViz</a>'
+}).addTo(map5)

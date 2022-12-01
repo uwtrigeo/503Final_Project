@@ -13,11 +13,24 @@ var myStyle = {
 
 
 // Add basemap
+// Stamen toner lite
+var Stamen_TonerLite = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
+	  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	  subdomains: 'abcd',
+	  minZoom: 0,
+	  maxZoom: 20,
+	  ext: 'png'
+});
+// OSM HOT
+var OpenStreetMap_HOT = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+	  maxZoom: 19,
+	  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+});
  // OpenStreetMap layer
 var OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-     maxZoom: 19,
+    maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  });
+});
 // OpenTopoMap layer
 var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
 	  maxZoom: 17,
@@ -32,14 +45,14 @@ var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest
 var skiStats = L.geoJSON(resorts, {
   pointToLayer: function (feature, latlng) {
       var circleColor;
-      if (feature.properties.year_opened <= 1950) circleColor = "#ff0000";
-      else if (feature.properties.year_opened <= 1960) circleColor = "#ff7800";
-      else if (feature.properties.year_opened <= 1970) circleColor = "#ffbf00";
-      else if (feature.properties.year_opened <= 1980) circleColor = "#ffff00";
-      else if (feature.properties.year_opened <= 1990) circleColor = "#bfff00";
-      else if (feature.properties.year_opened <= 2000) circleColor = "#5DC669";
-      else if (feature.properties.year_opened > 2000)  circleColor = "#08F221";
-      else circleColor = "#000000";
+      if (feature.properties.year_opened <= 1950) circleColor = "#3288bd";
+      else if (feature.properties.year_opened <= 1960) circleColor = "#99d594";
+      else if (feature.properties.year_opened <= 1970) circleColor = "#e6f598";
+      else if (feature.properties.year_opened <= 1980) circleColor = "#ffffbf";
+      else if (feature.properties.year_opened <= 1990) circleColor = "#fee08b";
+      else if (feature.properties.year_opened <= 2000) circleColor = "#fc8d59";
+      else if (feature.properties.year_opened > 2000)  circleColor = "#d53e4f";
+      else circleColor = "#737373";
 
       var skiStatsStyle = {
         radius: 8,
@@ -69,10 +82,12 @@ clusters.addLayer(skiStats);
 var map = L.map('map', {
   center: [50.88629, -106.58909],
   zoom: 4,
-  layers: [OSM, skiStats]
+  layers: [Stamen_TonerLite, skiStats]
 });
 
 var layercontrol = L.control.layers({
+  "Stamen Toner Lite": Stamen_TonerLite,
+  "OpenStreetMap_HOT": OpenStreetMap_HOT,
   "OpenStreetMap": OSM,
   "OSM Topo": OpenTopoMap,
   "Esri World Imagery": Esri_WorldImagery
@@ -95,66 +110,82 @@ var Legend = L.control.Legend({
     {
       label: "Before 1950",
       type: "circle",
-      radius: 6,
-      color: "#ff0000",
+      radius: 8,
+      fillColor: "#3288bd",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "0.8",
+      weight: 1,
     },
     {
-      label: "1950-1960",
+      label: "1951-1960",
       type: "circle",
-      radius: 6,
-      color: "#ff7800",
+      radius: 8,
+      fillColor: "#99d594",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "0.8",
+      weight: 1,
     },
     {
-      label: "1960-1970",
+      label: "1961-1970",
       type: "circle",
-      radius: 6,
-      color: "#ffbf00",
+      radius: 8,
+      fillColor: "#e6f598",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "0.8",
+      weight: 1,
     },
     {
-      label: "1970-1980",
+      label: "1971-1980",
       type: "circle",
-      radius: 6,
-      color: "#ffff00",
+      radius: 8,
+      fillColor: "#ffffbf",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1,
     },
     {
-      label: "1980-1990",
+      label: "1981-1990",
       type: "circle",
-      radius: 6,
-      color: "#bfff00",
+      radius: 8,
+      fillColor: "#fee08b",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "0.8",
+      weight: 1,
     },
     {
-      label: "1990-2000",
+      label: "1991-2000",
       type: "circle",
-      radius: 6,
-      color: "#5DC669",
+      radius: 8,
+      fillColor: "#fc8d59",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "0.8",
+      weight: 1,
     },
     {
       label: "After 2000",
       type: "circle",
-      radius: 6,
-      color: "#08F221",
+      radius: 8,
+      fillColor: "#d53e4f",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "0.8",
+      weight: 1,
     },
     {
       label: "NA",
       type: "circle",
-      radius: 6,
-      color: "black",
+      radius: 8,
+      fillColor: "#737373",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "0.8",
+      weight: 1,
     }
     
 ]
@@ -164,7 +195,7 @@ var Legend = L.control.Legend({
 L.control.scale().addTo(map);
 
 /*Legend specific*/
-var legend = L.control({ position: "bottomright" });
+// var legend = L.control({ position: "bottomright" });
 
 // legend.onAdd = function(map) {
 //   var div = L.DomUtil.create("div", "legend");
@@ -188,6 +219,19 @@ var legend = L.control({ position: "bottomright" });
 // Map 2
 
 // Add basemap
+// Stamen_TonerLite
+var Stamen_TonerLite2 = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
+	  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	  subdomains: 'abcd',
+	  minZoom: 0,
+	  maxZoom: 20,
+	  ext: 'png'
+});
+// OSM HOT
+var OpenStreetMap_HOT2 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+	  maxZoom: 19,
+	  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+});
  // OpenStreetMap layer
  var OSM2 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -208,15 +252,24 @@ var Esri_WorldImagery2 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/res
 var skiStats2 = L.geoJSON(resorts, {
     pointToLayer: function (feature, latlng) {
       var circleSize;      
-      if (feature.properties.acres <= 100) circleSize = 2;
-      else if (feature.properties.acres <= 300) circleSize = 4;
-      else if (feature.properties.acres <= 800) circleSize = 6;
+      if (feature.properties.acres <= 100) circleSize = 4;
+      else if (feature.properties.acres <= 300) circleSize = 6;
+      else if (feature.properties.acres <= 800) circleSize = 8;
       else if (feature.properties.acres <= 2000) circleSize = 10;
       else if (feature.properties.acres <= 3000) circleSize = 14;
       else if (feature.properties.acres <= 7500) circleSize = 18;
       else circleSize = 0;
+
+      var circleColor;      
+      if (feature.properties.acres <= 100) circleColor = '#3288bd';
+      else if (feature.properties.acres <= 300) circleColor = '#99d594';
+      else if (feature.properties.acres <= 800) circleColor = '#e6f598';
+      else if (feature.properties.acres <= 2000) circleColor = '#fee08b';
+      else if (feature.properties.acres <= 3000) circleColor = '#fc8d59';
+      else if (feature.properties.acres <= 7500) circleColor = '#d53e4f';
+      else circleColor = '#737373';
       
-      var marker = L.circleMarker(latlng, {radius: circleSize, color: 'blue', weight: 1, opacity: 4, fillOpacity: 0.3});
+      var marker = L.circleMarker(latlng, {radius: circleSize, color: circleColor, weight: 1, opacity: 4, fillOpacity: 0.7});
       marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Acres: </b>" + feature.properties.acres + "</p>");
       return marker;
     }
@@ -227,10 +280,12 @@ var skiStats2 = L.geoJSON(resorts, {
 var map2 = L.map('map2', {
   center: [50.88629, -106.58909],
   zoom: 4,
-  layers: [OSM2, skiStats2]
+  layers: [Stamen_TonerLite2, skiStats2]
 });
 
 var layerControl2 = L.control.layers({
+  "Stamen Toner Lite": Stamen_TonerLite2,
+  "OpenStreetMap HOT": OpenStreetMap_HOT2,
   "OpenStreetMap": OSM2,
   "OSM Topo": OpenTopoMap2,
   "Esri World Imagery": Esri_WorldImagery2
@@ -253,50 +308,62 @@ var Legend2 = L.control.Legend({
     {
       label: "0-100",
       type: "circle",
-      radius: 2,
-      color: "blue",
+      radius: 4,
+      color: "#3288bd",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1,
+    
     },
     {
       label: "101-300",
       type: "circle",
-      radius: 4,
-      color: "blue",
+      radius: 6,
+      fillColor: "#99d594",
+      color: "000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "301-800",
       type: "circle",
-      radius: 6,
-      color: "blue",
+      radius: 8,
+      fillColor: "#e6f598",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "801-2000",
       type: "circle",
       radius: 10,
-      color: "blue",
+      fillColor: "#fee08b",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "2001-3000",
       type: "circle",
       radius: 14,
-      color: "blue",
+      fillColor: "#fc8d59",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "0.8",
+      weight: 1
     },
     {
       label: "3001-7300",
       type: "circle",
       radius: 18,
-      color: "blue",
+      fillColor: "#d53e4f",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "0.8",
+      weight: 1
     }
 ]
 }).addTo(map2);
@@ -308,6 +375,19 @@ L.control.scale().addTo(map2);
 // map 3
 
 // Add basemap
+// Stamen_TonerLite
+var Stamen_TonerLite3 = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
+	  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	  subdomains: 'abcd',
+	  minZoom: 0,
+	  maxZoom: 20,
+	  ext: 'png'
+});
+// OSM HOT
+var OpenStreetMap_HOT3 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+	  maxZoom: 19,
+	  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+});
  // OpenStreetMap layer
  var OSM3 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -335,8 +415,17 @@ var skiStats3 = L.geoJSON(resorts, {
     else if (feature.properties.lifts <= 30) circleSize = 14;
     else if (feature.properties.lifts > 30) circleSize = 18;
     else circleSize = 0;
+
+    var circleColor;      
+      if (feature.properties.lifts <= 5) circleColor = '#3288bd';
+      else if (feature.properties.lifts <= 10) circleColor = '#99d594';
+      else if (feature.properties.lifts <= 15) circleColor = '#e6f598';
+      else if (feature.properties.lifts <= 20) circleColor = '#fee08b';
+      else if (feature.properties.lifts <= 30) circleColor = '#fc8d59';
+      else if (feature.properties.lifts > 30) circleColor = '#d53e4f';
+      else circleColor = '#737373';
     
-    var marker = L.circleMarker(latlng, {radius: circleSize, color: 'blue', weight: 1, opacity: 4, fillOpacity: 0.3});
+    var marker = L.circleMarker(latlng, {radius: circleSize, color: circleColor, weight: 1, opacity: 4, fillOpacity: 0.7});
     marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Lifts: </b>" + feature.properties.lifts + "</p>");
     return marker;
   }
@@ -347,10 +436,12 @@ var skiStats3 = L.geoJSON(resorts, {
 var map3 = L.map('map3', {
   center: [50.88629, -106.58909],
   zoom: 4,
-  layers: [OSM3, skiStats3]
+  layers: [Stamen_TonerLite3, skiStats3]
 });
 
 var layerControl3 = L.control.layers({
+  "Stamen Toner Lite": Stamen_TonerLite3,
+  "OpenStreetMap HOT": OpenStreetMap_HOT3,
   "OpenStreetMap": OSM3,
   "OSM Topo": OpenTopoMap3,
   "Esri World Imagery": Esri_WorldImagery3
@@ -374,49 +465,59 @@ var Legend3 = L.control.Legend({
       label: "0-5",
       type: "circle",
       radius: 4,
-      color: "blue",
+      color: "#3288bd",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1"
     },
     {
       label: "6-10",
       type: "circle",
       radius: 6,
-      color: "blue",
+      fillColor: "#99d594",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "11-15",
       type: "circle",
       radius: 8,
-      color: "blue",
+      fillColor: "#e6f598",
+      color: "#000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "16-20",
       type: "circle",
       radius: 10,
-      color: "blue",
+      fillColor: "#fee08b",
+      color: "000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "21-30",
       type: "circle",
       radius: 14,
-      color: "blue",
+      fillColor: "#fc8d59",
+      color: "000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "Above 30",
       type: "circle",
       radius: 18,
-      color: "blue",
+      fillColor: "#d53e4f",
+      color: "000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     }    
 ]
 }).addTo(map3);
@@ -428,6 +529,19 @@ L.control.scale().addTo(map3);
 // map 4
 
 // Add basemap
+// Stamen_TonerLite
+var Stamen_TonerLite4 = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
+	  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	  subdomains: 'abcd',
+	  minZoom: 0,
+	  maxZoom: 20,
+	  ext: 'png'
+});
+// OSM HOT
+var OpenStreetMap_HOT4 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+	  maxZoom: 19,
+	  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+});
  // OpenStreetMap layer
  var OSM4 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -455,8 +569,17 @@ var skiStats4 = L.geoJSON(resorts, {
     else if (feature.properties.vertical <= 4000) circleSize = 16;
     else if (feature.properties.vertical > 4000) circleSize = 20;
     else circleSize = 0;
+
+    var circleColor;      
+      if (feature.properties.vertical <= 500) circleColor = '#3288bd';
+      else if (feature.properties.vertical <= 1000) circleColor = '#99d594';
+      else if (feature.properties.vertical <= 2000) circleColor = '#e6f598';
+      else if (feature.properties.vertical <= 3000) circleColor = '#fee08b';
+      else if (feature.properties.vertical <= 4000) circleColor = '#fc8d59';
+      else if (feature.properties.vertical > 4000) circleColor = '#d53e4f';
+      else circleColor = '#737373';
     
-    var marker = L.circleMarker(latlng, {radius: circleSize, color: 'blue', weight: 1, opacity: 4, fillOpacity: 0.3});
+    var marker = L.circleMarker(latlng, {radius: circleSize, color: circleColor, weight: 1, opacity: 4, fillOpacity: 0.7});
     marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Vertical: </b>" + feature.properties.vertical + "</p>");
     return marker;
   }
@@ -467,10 +590,12 @@ var skiStats4 = L.geoJSON(resorts, {
 var map4 = L.map('map4', {
   center: [50.88629, -106.58909],
   zoom: 4,
-  layers: [OSM4, skiStats4]
+  layers: [Stamen_TonerLite4, skiStats4]
 });
 
 var layerControl4 = L.control.layers({
+  "Stamen TonerLite": Stamen_TonerLite4,
+  "OpenStreetMap HOT": OpenStreetMap_HOT4,
   "OpenStreetMap": OSM4,
   "OSM Topo": OpenTopoMap4,
   "Esri World Imagery": Esri_WorldImagery4
@@ -494,49 +619,60 @@ var Legend4 = L.control.Legend({
       label: "0-500",
       type: "circle",
       radius: 4,
-      color: "blue",
+      color: "#3288bd",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1"
     },
     {
       label: "501-1000",
       type: "circle",
       radius: 6,
-      color: "blue",
+      fillColor: "#99d594",
+      color: "000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "1001-2000",
       type: "circle",
       radius: 8,
-      color: "blue",
+      fillColor: "#e6f598",
+      color: "000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "2001-3000",
       type: "circle",
       radius: 12,
-      color: "blue",
+      fillColor: "#fee08b",
+      color: "000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "3001-4000",
       type: "circle",
       radius: 16,
-      color: "blue",
+      fillColor: "#fc8d59",
+      color: "000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
     },
     {
       label: "Above 4000",
       type: "circle",
       radius: 20,
-      color: "blue",
+      fillColor: "#d53e4f",
+      color: "000",
       fill: true,
-      fillOpacity: "0.4"
+      fillOpacity: "1",
+      weight: 1
+
     }
     
 ]

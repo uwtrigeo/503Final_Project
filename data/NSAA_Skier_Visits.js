@@ -1,3 +1,4 @@
+var NSAA_Visits =
 {
 "type": "FeatureCollection",
 "name": "NSAA_Skier_Visits",

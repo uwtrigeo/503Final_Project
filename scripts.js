@@ -119,18 +119,17 @@ var layercontrol = L.control.layers({
     "Resorts Clustered": clusters,
     "State Ski Resort Count": stateStats    
     }, 
-    
-  
+      
 ).addTo(map);
 
 // ski resort opened legend
 var Legend = L.control.Legend({
-  position: "bottomleft",
-  title: "Opened",
-  opacity:0.50,
-  symbolWidth: 30,
-  collapsed: true,
-  legends: [
+    position: "bottomleft",
+    title: "Opened",
+    opacity:0.50,
+    symbolWidth: 30,
+    collapsed: true,
+    legends: [
     {
       label: "Before 1950",
       type: "circle",
@@ -329,13 +328,13 @@ var layerControl2 = L.control.layers({
 
 // ski resort acres circle size legend
 var Legend2 = L.control.Legend({
-  position: "bottomleft",
-  title: "Acres",
-  opacity:0.50,
-  symbolWidth: 55,
-  symbolHeight: 40,
-  collapsed: true,
-  legends: [
+    position: "bottomleft",
+    title: "Acres",
+    opacity:0.50,
+    symbolWidth: 55,
+    symbolHeight: 40,
+    collapsed: true,
+    legends: [
     {
       label: "0-100",
       type: "circle",
@@ -437,24 +436,24 @@ var Esri_WorldImagery3 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/res
 
 // stats layers added
 var skiStats3 = L.geoJSON(resorts, {
-  pointToLayer: function (feature, latlng) {
+    pointToLayer: function (feature, latlng) {
     var circleSize;      
-    if (feature.properties.lifts <= 5) circleSize = 4;
-    else if (feature.properties.lifts <= 10) circleSize = 6;
-    else if (feature.properties.lifts <= 15) circleSize = 8;
-    else if (feature.properties.lifts <= 20) circleSize = 10;
-    else if (feature.properties.lifts <= 30) circleSize = 14;
-    else if (feature.properties.lifts > 30) circleSize = 18;
-    else circleSize = 0;
+        if (feature.properties.lifts <= 5) circleSize = 4;
+        else if (feature.properties.lifts <= 10) circleSize = 6;
+        else if (feature.properties.lifts <= 15) circleSize = 8;
+        else if (feature.properties.lifts <= 20) circleSize = 10;
+        else if (feature.properties.lifts <= 30) circleSize = 14;
+        else if (feature.properties.lifts > 30) circleSize = 18;
+        else circleSize = 0;
 
     var circleColor;      
-      if (feature.properties.lifts <= 5) circleColor = '#3288bd';
-      else if (feature.properties.lifts <= 10) circleColor = '#99d594';
-      else if (feature.properties.lifts <= 15) circleColor = '#e6f598';
-      else if (feature.properties.lifts <= 20) circleColor = '#fee08b';
-      else if (feature.properties.lifts <= 30) circleColor = '#fc8d59';
-      else if (feature.properties.lifts > 30) circleColor = '#d53e4f';
-      else circleColor = '#737373';
+        if (feature.properties.lifts <= 5) circleColor = '#3288bd';
+        else if (feature.properties.lifts <= 10) circleColor = '#99d594';
+        else if (feature.properties.lifts <= 15) circleColor = '#e6f598';
+        else if (feature.properties.lifts <= 20) circleColor = '#fee08b';
+        else if (feature.properties.lifts <= 30) circleColor = '#fc8d59';
+        else if (feature.properties.lifts > 30) circleColor = '#d53e4f';
+        else circleColor = '#737373';
     
     var marker = L.circleMarker(latlng, {radius: circleSize, color: circleColor, weight: 1, opacity: 4, fillOpacity: 0.7});
     marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Lifts: </b>" + feature.properties.lifts + "</p>");
@@ -466,14 +465,14 @@ var skiStats3 = L.geoJSON(resorts, {
 var stateStats3 = L.geoJSON(states, {
   style: function (feature) {
     var fillColor;
-      if (feature.properties.Lifts == null) fillColor = '#737373';
-      else if (feature.properties.Lifts <= 10) fillColor = "#3288bd";
-      else if (feature.properties.Lifts <= 20) fillColor = "#99d594";
-      else if (feature.properties.Lifts <= 100) fillColor = "#e6f598";
-      else if (feature.properties.Lifts <= 200) fillColor = "#fee08b";
-      else if (feature.properties.Lifts <= 300) fillColor = "#fc8d59";
-      else if (feature.properties.Lifts > 300)  fillColor = "#d53e4f";
-      else fillColor = "#737373";
+        if (feature.properties.Lifts == null) fillColor = '#737373';
+        else if (feature.properties.Lifts <= 10) fillColor = "#3288bd";
+        else if (feature.properties.Lifts <= 20) fillColor = "#99d594";
+        else if (feature.properties.Lifts <= 100) fillColor = "#e6f598";
+        else if (feature.properties.Lifts <= 200) fillColor = "#fee08b";
+        else if (feature.properties.Lifts <= 300) fillColor = "#fc8d59";
+        else if (feature.properties.Lifts > 300)  fillColor = "#d53e4f";
+        else fillColor = "#737373";
 
     return {
       color: "#000",
@@ -490,34 +489,36 @@ onEachFeature: function (feature, layer) {
 
 // Initialize map
 var map3 = L.map('map3', {
-  center: [50.88629, -106.58909],
-  zoom: 4,
-  layers: [Stamen_TonerLite3, skiStats3]
+    center: [50.88629, -106.58909],
+    zoom: 4,
+    layers: [Stamen_TonerLite3, skiStats3]
 });
 
 var layerControl3 = L.control.layers({
-  "Stamen Toner Lite": Stamen_TonerLite3,
-  "OpenStreetMap HOT": OpenStreetMap_HOT3,
-  "OpenStreetMap": OSM3,
-  "OSM Topo": OpenTopoMap3,
-  "Esri World Imagery": Esri_WorldImagery3
-}, {
-  "Ski Resorts": skiStats3,
-  "State Ski Lift Count": stateStats3
-}, {
+    "Stamen Toner Lite": Stamen_TonerLite3,
+    "OpenStreetMap HOT": OpenStreetMap_HOT3,
+    "OpenStreetMap": OSM3,
+    "OSM Topo": OpenTopoMap3,
+    "Esri World Imagery": Esri_WorldImagery3
+    }, 
+    {
+    "Ski Resorts": skiStats3,
+    "State Ski Lift Count": stateStats3
+    }, 
+    
   
-}).addTo(map3);
+).addTo(map3);
 
 
 // ski resort acres circle size legend
 var Legend3 = L.control.Legend({
-  position: "bottomleft",
-  title: "Lifts",
-  opacity:0.50,
-  symbolWidth: 50,
-  symbolHeight: 40,
-  collapsed: true,
-  legends: [
+    position: "bottomleft",
+    title: "Lifts",
+    opacity:0.50,
+    symbolWidth: 50,
+    symbolHeight: 40,
+    collapsed: true,
+    legends: [
     {
       label: "0-5",
       type: "circle",
@@ -583,7 +584,7 @@ var Legend3 = L.control.Legend({
 L.control.scale().addTo(map3);
 
 
-// Map 4
+// Map 4 - Vertical Drop
 
 // Add basemap
 // Stamen_TonerLite
@@ -619,59 +620,60 @@ var Esri_WorldImagery4 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/res
 var skiStats4 = L.geoJSON(resorts, {
   pointToLayer: function (feature, latlng) {
     var circleSize;      
-    if (feature.properties.vertical <= 500) circleSize = 4;
-    else if (feature.properties.vertical <= 1000) circleSize = 6;
-    else if (feature.properties.vertical <= 2000) circleSize = 8;
-    else if (feature.properties.vertical <= 3000) circleSize = 12;
-    else if (feature.properties.vertical <= 4000) circleSize = 16;
-    else if (feature.properties.vertical > 4000) circleSize = 20;
-    else circleSize = 0;
+        if (feature.properties.vertical <= 500) circleSize = 4;
+        else if (feature.properties.vertical <= 1000) circleSize = 6;
+        else if (feature.properties.vertical <= 2000) circleSize = 8;
+        else if (feature.properties.vertical <= 3000) circleSize = 12;
+        else if (feature.properties.vertical <= 4000) circleSize = 16;
+        else if (feature.properties.vertical > 4000) circleSize = 20;
+        else circleSize = 0;
 
     var circleColor;      
-      if (feature.properties.vertical <= 500) circleColor = '#3288bd';
-      else if (feature.properties.vertical <= 1000) circleColor = '#99d594';
-      else if (feature.properties.vertical <= 2000) circleColor = '#e6f598';
-      else if (feature.properties.vertical <= 3000) circleColor = '#fee08b';
-      else if (feature.properties.vertical <= 4000) circleColor = '#fc8d59';
-      else if (feature.properties.vertical > 4000) circleColor = '#d53e4f';
-      else circleColor = '#737373';
+        if (feature.properties.vertical <= 500) circleColor = '#3288bd';
+        else if (feature.properties.vertical <= 1000) circleColor = '#99d594';
+        else if (feature.properties.vertical <= 2000) circleColor = '#e6f598';
+        else if (feature.properties.vertical <= 3000) circleColor = '#fee08b';
+        else if (feature.properties.vertical <= 4000) circleColor = '#fc8d59';
+        else if (feature.properties.vertical > 4000) circleColor = '#d53e4f';
+        else circleColor = '#737373';
     
     var marker = L.circleMarker(latlng, {radius: circleSize, color: circleColor, weight: 1, opacity: 4, fillOpacity: 0.7});
-    marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Vertical: </b>" + feature.properties.vertical + "</p>");
-    return marker;
+        marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Vertical: </b>" + feature.properties.vertical + "</p>");
+        return marker;
   }
 });
 
 
 // Initialize map
 var map4 = L.map('map4', {
-  center: [50.88629, -106.58909],
-  zoom: 4,
-  layers: [Stamen_TonerLite4, skiStats4]
-});
+    center: [50.88629, -106.58909],
+    zoom: 4,
+    layers: [Stamen_TonerLite4, skiStats4]
+  });
 
 var layerControl4 = L.control.layers({
-  "Stamen TonerLite": Stamen_TonerLite4,
-  "OpenStreetMap HOT": OpenStreetMap_HOT4,
-  "OpenStreetMap": OSM4,
-  "OSM Topo": OpenTopoMap4,
-  "Esri World Imagery": Esri_WorldImagery4
-}, {
-  "Ski Resorts": skiStats4
-}, {
-  
-}).addTo(map4);
+    "Stamen TonerLite": Stamen_TonerLite4,
+    "OpenStreetMap HOT": OpenStreetMap_HOT4,
+    "OpenStreetMap": OSM4,
+    "OSM Topo": OpenTopoMap4,
+    "Esri World Imagery": Esri_WorldImagery4
+    }, 
+    {
+    "Ski Resorts": skiStats4
+    }, 
+    
+  ).addTo(map4);
 
 
 // ski resort acres circle size legend
 var Legend4 = L.control.Legend({
-  position: "bottomleft",
-  title: "Vertical",
-  opacity:0.50,
-  symbolWidth: 50,
-  symbolHeight: 40,
-  collapsed: true,
-  legends: [
+    position: "bottomleft",
+    title: "Vertical",
+    opacity:0.50,
+    symbolWidth: 50,
+    symbolHeight: 40,
+    collapsed: true,
+    legends: [
     {
       label: "0-500",
       type: "circle",

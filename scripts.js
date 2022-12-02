@@ -1,13 +1,13 @@
 
-// Map 1
+// Map 1 - Year opened and count by state
 
 var myStyle = {
-  radius: 8,
-      fillColor: "#ff7800",
-      color: "#000",
-      weight: 1,
-      opacity: 1,
-      fillOpacity: 0.8
+    radius: 8,
+    fillColor: "#ff7800",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
   };
 
 
@@ -43,7 +43,7 @@ var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest
 
 // stats layers added
 var skiStats = L.geoJSON(resorts, {
-  pointToLayer: function (feature, latlng) {
+    pointToLayer: function (feature, latlng) {
       var circleColor;
       if (feature.properties.year_opened <= 1950) circleColor = "#3288bd";
       else if (feature.properties.year_opened <= 1960) circleColor = "#99d594";
@@ -55,12 +55,12 @@ var skiStats = L.geoJSON(resorts, {
       else circleColor = "#737373";
 
       var skiStatsStyle = {
-        radius: 8,
-        fillColor: circleColor,
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
+          radius: 8,
+          fillColor: circleColor,
+          color: "#000",
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.8,
       };
       return L.circleMarker(latlng, skiStatsStyle);
     },
@@ -70,34 +70,58 @@ var skiStats = L.geoJSON(resorts, {
 
 });
 
-
-
 // cluster resorts
 var clusters = L.markerClusterGroup();
-clusters.addLayer(skiStats);
+    clusters.addLayer(skiStats);
 
+// State ski resort count layer
+var stateStats = L.geoJSON(states, {
+  style: function (feature) {
+    var fillColor;
+      if (feature.properties.numResorts == null) fillColor = '#737373';
+      else if (feature.properties.numResorts <= 5) fillColor = "#3288bd";
+      else if (feature.properties.numResorts <= 10) fillColor = "#99d594";
+      else if (feature.properties.numResorts <= 20) fillColor = "#e6f598";
+      else if (feature.properties.numResorts <= 30) fillColor = "#fee08b";
+      else if (feature.properties.numResorts <= 40) fillColor = "#fc8d59";
+      else if (feature.properties.numResorts > 40)  fillColor = "#d53e4f";
+      else fillColor = "#737373";
 
+    return {
+      color: "#000",
+      weight: 0.5,
+      opacity: 1,
+      fillOpacity: 0.8,
+      fillColor: fillColor,
+    };
+},
+onEachFeature: function (feature, layer) {
+  layer.bindPopup("<b>State: </b>" + feature.properties.NAME + "<br><b>Ski Resorts: </b>" + feature.properties.numResorts);
+}
+});
 
 // Initialize map
 var map = L.map('map', {
-  center: [50.88629, -106.58909],
-  zoom: 4,
-  layers: [Stamen_TonerLite, skiStats]
+    center: [50.88629, -106.58909],
+    zoom: 4,
+    layers: [Stamen_TonerLite, skiStats]
 });
 
 var layercontrol = L.control.layers({
-  "Stamen Toner Lite": Stamen_TonerLite,
-  "OpenStreetMap_HOT": OpenStreetMap_HOT,
-  "OpenStreetMap": OSM,
-  "OSM Topo": OpenTopoMap,
-  "Esri World Imagery": Esri_WorldImagery
-}, {
-  "Ski Resorts": skiStats,
-  "Resorts Clustered": clusters,
-  // "Heat Map": heat
-}, {
+    "Stamen Toner Lite": Stamen_TonerLite,
+    "OpenStreetMap_HOT": OpenStreetMap_HOT,
+    "OpenStreetMap": OSM,
+    "OSM Topo": OpenTopoMap,
+    "Esri World Imagery": Esri_WorldImagery
+    }, 
+    {
+    "Ski Resort Year Opened": skiStats,
+    "Resorts Clustered": clusters,
+    "State Ski Resort Count": stateStats    
+    }, 
+    
   
-}).addTo(map);
+).addTo(map);
 
 // ski resort opened legend
 var Legend = L.control.Legend({
@@ -194,29 +218,8 @@ var Legend = L.control.Legend({
 // add scale bar
 L.control.scale().addTo(map);
 
-/*Legend specific*/
-// var legend = L.control({ position: "bottomright" });
 
-// legend.onAdd = function(map) {
-//   var div = L.DomUtil.create("div", "legend");
-//   div.innerHTML += "<h4>Tegnforklaring</h4>";
-//   div.innerHTML += '<i style="background: #477AC2"></i><span>Water</span><br>';
-//   div.innerHTML += '<i style="background: #448D40"></i><span>Forest</span><br>';
-//   div.innerHTML += '<i style="background: #E6E696"></i><span>Land</span><br>';
-//   div.innerHTML += '<i style="background: #E8E6E0"></i><span>Residential</span><br>';
-//   div.innerHTML += '<i style="background: #FFFFFF"></i><span>Ice</span><br>';
-//   div.innerHTML += '<i class="icon" style="background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/194515-200.png);background-repeat: no-repeat;"></i><span>Grænse</span><br>';
-  
-  
-
-//   return div;
-// };
-
-// legend.addTo(map);
-
-
-
-// Map 2
+// Map 2 - Acres by resort and state
 
 // Add basemap
 // Stamen_TonerLite
@@ -252,29 +255,54 @@ var Esri_WorldImagery2 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/res
 var skiStats2 = L.geoJSON(resorts, {
     pointToLayer: function (feature, latlng) {
       var circleSize;      
-      if (feature.properties.acres <= 100) circleSize = 4;
-      else if (feature.properties.acres <= 300) circleSize = 6;
-      else if (feature.properties.acres <= 800) circleSize = 8;
-      else if (feature.properties.acres <= 2000) circleSize = 10;
-      else if (feature.properties.acres <= 3000) circleSize = 14;
-      else if (feature.properties.acres <= 7500) circleSize = 18;
-      else circleSize = 0;
+          if (feature.properties.acres <= 100) circleSize = 4;
+          else if (feature.properties.acres <= 300) circleSize = 6;
+          else if (feature.properties.acres <= 800) circleSize = 8;
+          else if (feature.properties.acres <= 2000) circleSize = 10;
+          else if (feature.properties.acres <= 3000) circleSize = 14;
+          else if (feature.properties.acres <= 7500) circleSize = 18;
+          else circleSize = 0;
 
       var circleColor;      
-      if (feature.properties.acres <= 100) circleColor = '#3288bd';
-      else if (feature.properties.acres <= 300) circleColor = '#99d594';
-      else if (feature.properties.acres <= 800) circleColor = '#e6f598';
-      else if (feature.properties.acres <= 2000) circleColor = '#fee08b';
-      else if (feature.properties.acres <= 3000) circleColor = '#fc8d59';
-      else if (feature.properties.acres <= 7500) circleColor = '#d53e4f';
-      else circleColor = '#737373';
+          if (feature.properties.acres <= 100) circleColor = '#3288bd';
+          else if (feature.properties.acres <= 300) circleColor = '#99d594';
+          else if (feature.properties.acres <= 800) circleColor = '#e6f598';
+          else if (feature.properties.acres <= 2000) circleColor = '#fee08b';
+          else if (feature.properties.acres <= 3000) circleColor = '#fc8d59';
+          else if (feature.properties.acres > 3000) circleColor = '#d53e4f';
+          else circleColor = '#737373';
       
       var marker = L.circleMarker(latlng, {radius: circleSize, color: circleColor, weight: 1, opacity: 4, fillOpacity: 0.7});
-      marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Acres: </b>" + feature.properties.acres + "</p>");
-      return marker;
+          marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Acres: </b>" + feature.properties.acres + "</p>");
+          return marker;
     }
   });
 
+// State ski acres layer
+var stateStats2 = L.geoJSON(states, {
+    style: function (feature) {
+      var fillColor;
+        if (feature.properties.skiAcres == null) fillColor = '#737373';
+        else if (feature.properties.skiAcres <= 1000) fillColor = "#3288bd";
+        else if (feature.properties.skiAcres <= 5000) fillColor = "#99d594";
+        else if (feature.properties.skiAcres <= 10000) fillColor = "#e6f598";
+        else if (feature.properties.skiAcres <= 20000) fillColor = "#fee08b";
+        else if (feature.properties.skiAcres <= 30000) fillColor = "#fc8d59";
+        else if (feature.properties.skiAcres > 30000)  fillColor = "#d53e4f";
+        else fillColor = "#737373";
+
+      return {
+        color: "#000",
+        weight: 0.5,
+        opacity: 1,
+        fillOpacity: 0.8,
+        fillColor: fillColor,
+      };
+  },
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup("<b>State: </b>" + feature.properties.NAME + "<br><b>Skiable Acres: </b>" + feature.properties.skiAcres);
+  }
+});
 
 // Initialize map
 var map2 = L.map('map2', {
@@ -284,14 +312,17 @@ var map2 = L.map('map2', {
 });
 
 var layerControl2 = L.control.layers({
-  "Stamen Toner Lite": Stamen_TonerLite2,
-  "OpenStreetMap HOT": OpenStreetMap_HOT2,
-  "OpenStreetMap": OSM2,
-  "OSM Topo": OpenTopoMap2,
-  "Esri World Imagery": Esri_WorldImagery2
-}, {
-  "Ski Resorts": skiStats2
-}, {
+    "Stamen Toner Lite": Stamen_TonerLite2,
+    "OpenStreetMap HOT": OpenStreetMap_HOT2,
+    "OpenStreetMap": OSM2,
+    "OSM Topo": OpenTopoMap2,
+    "Esri World Imagery": Esri_WorldImagery2
+    }, 
+    {
+    "Ski Resorts": skiStats2,
+    "State Ski Acres": stateStats2
+    }, 
+    {
   
 }).addTo(map2);
 
@@ -372,7 +403,7 @@ var Legend2 = L.control.Legend({
 L.control.scale().addTo(map2);
 
 
-// map 3
+// Map 3 - Lifts by resort and state
 
 // Add basemap
 // Stamen_TonerLite
@@ -431,6 +462,31 @@ var skiStats3 = L.geoJSON(resorts, {
   }
 });
 
+// State ski resort count layer
+var stateStats3 = L.geoJSON(states, {
+  style: function (feature) {
+    var fillColor;
+      if (feature.properties.Lifts == null) fillColor = '#737373';
+      else if (feature.properties.Lifts <= 10) fillColor = "#3288bd";
+      else if (feature.properties.Lifts <= 20) fillColor = "#99d594";
+      else if (feature.properties.Lifts <= 100) fillColor = "#e6f598";
+      else if (feature.properties.Lifts <= 200) fillColor = "#fee08b";
+      else if (feature.properties.Lifts <= 300) fillColor = "#fc8d59";
+      else if (feature.properties.Lifts > 300)  fillColor = "#d53e4f";
+      else fillColor = "#737373";
+
+    return {
+      color: "#000",
+      weight: 0.5,
+      opacity: 1,
+      fillOpacity: 0.8,
+      fillColor: fillColor,
+    };
+},
+onEachFeature: function (feature, layer) {
+  layer.bindPopup("<b>State: </b>" + feature.properties.NAME + "<br><b>Ski Lifts: </b>" + feature.properties.Lifts);
+}
+});
 
 // Initialize map
 var map3 = L.map('map3', {
@@ -446,7 +502,8 @@ var layerControl3 = L.control.layers({
   "OSM Topo": OpenTopoMap3,
   "Esri World Imagery": Esri_WorldImagery3
 }, {
-  "Ski Resorts": skiStats3
+  "Ski Resorts": skiStats3,
+  "State Ski Lift Count": stateStats3
 }, {
   
 }).addTo(map3);
@@ -526,7 +583,7 @@ var Legend3 = L.control.Legend({
 L.control.scale().addTo(map3);
 
 
-// map 4
+// Map 4
 
 // Add basemap
 // Stamen_TonerLite

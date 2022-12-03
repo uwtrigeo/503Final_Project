@@ -44,23 +44,29 @@ var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest
 // stats layers added
 var skiStats = L.geoJSON(resorts, {
     pointToLayer: function (feature, latlng) {
+      var circleSize;      
+          if (feature.properties.year_opened <= 1950) circleSize = 4;
+          else if (feature.properties.year_opened <= 1960) circleSize = 6;
+          else if (feature.properties.year_opened <= 1970) circleSize = 8;
+          else if (feature.properties.year_opened <= 1980) circleSize = 10;
+          else if (feature.properties.year_opened <= 1990) circleSize = 14;
+          else if (feature.properties.year_opened > 1990) circleSize = 18;
+          else circleSize = 4;
       var circleColor;
-      if (feature.properties.year_opened <= 1950) circleColor = "#3288bd";
-      else if (feature.properties.year_opened <= 1960) circleColor = "#99d594";
-      else if (feature.properties.year_opened <= 1970) circleColor = "#e6f598";
-      else if (feature.properties.year_opened <= 1980) circleColor = "#ffffbf";
-      else if (feature.properties.year_opened <= 1990) circleColor = "#fee08b";
-      else if (feature.properties.year_opened <= 2000) circleColor = "#fc8d59";
-      else if (feature.properties.year_opened > 2000)  circleColor = "#d53e4f";
-      else circleColor = "#737373";
+          if (feature.properties.year_opened <= 1950) circleColor = "#3288db";
+          else if (feature.properties.year_opened <= 1960) circleColor = "#99d594";
+          else if (feature.properties.year_opened <= 1970) circleColor = "#e6f598";
+          else if (feature.properties.year_opened <= 1980) circleColor = "#fee08b";
+          else if (feature.properties.year_opened <= 1990) circleColor = "#fc8d59";
+          else if (feature.properties.year_opened > 1990)  circleColor = "#d53e4f";
+          else circleColor = "#737373";
 
       var skiStatsStyle = {
-          radius: 8,
-          fillColor: circleColor,
-          color: "#000",
+          radius: circleSize,
+          color: circleColor,
           weight: 1,
-          opacity: 1,
-          fillOpacity: 0.8,
+          opacity: 4,
+          fillOpacity: 0.7,
       };
       return L.circleMarker(latlng, skiStatsStyle);
     },
@@ -127,13 +133,14 @@ var Legend = L.control.Legend({
     position: "bottomleft",
     title: "Opened",
     opacity:0.50,
-    symbolWidth: 30,
+    symbolWidth: 55,
+    symbolHeight: 40,
     collapsed: true,
     legends: [
     {
       label: "Before 1950",
       type: "circle",
-      radius: 8,
+      radius: 4,
       fillColor: "#3288bd",
       color: "#000",
       fill: true,
@@ -143,7 +150,7 @@ var Legend = L.control.Legend({
     {
       label: "1951-1960",
       type: "circle",
-      radius: 8,
+      radius: 6,
       fillColor: "#99d594",
       color: "#000",
       fill: true,
@@ -163,8 +170,8 @@ var Legend = L.control.Legend({
     {
       label: "1971-1980",
       type: "circle",
-      radius: 8,
-      fillColor: "#ffffbf",
+      radius: 10,
+      fillColor: "#fee08b",
       color: "#000",
       fill: true,
       fillOpacity: "1",
@@ -173,17 +180,7 @@ var Legend = L.control.Legend({
     {
       label: "1981-1990",
       type: "circle",
-      radius: 8,
-      fillColor: "#fee08b",
-      color: "#000",
-      fill: true,
-      fillOpacity: "0.8",
-      weight: 1,
-    },
-    {
-      label: "1991-2000",
-      type: "circle",
-      radius: 8,
+      radius: 14,
       fillColor: "#fc8d59",
       color: "#000",
       fill: true,
@@ -191,9 +188,9 @@ var Legend = L.control.Legend({
       weight: 1,
     },
     {
-      label: "After 2000",
+      label: "After 1990",
       type: "circle",
-      radius: 8,
+      radius: 18,
       fillColor: "#d53e4f",
       color: "#000",
       fill: true,
@@ -203,7 +200,7 @@ var Legend = L.control.Legend({
     {
       label: "NA",
       type: "circle",
-      radius: 8,
+      radius: 4,
       fillColor: "#737373",
       color: "#000",
       fill: true,

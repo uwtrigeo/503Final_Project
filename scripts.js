@@ -737,3 +737,192 @@ var Legend4 = L.control.Legend({
 // add scale bar
 L.control.scale().addTo(map4);
 
+
+// Map 5 - Ski visits by NSAA region
+
+// Add basemap
+// Stamen_TonerLite
+var Stamen_TonerLite5 = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
+	  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	  subdomains: 'abcd',
+	  minZoom: 0,
+	  maxZoom: 20,
+	  ext: 'png'
+});
+// OSM HOT
+var OpenStreetMap_HOT5 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+	  maxZoom: 19,
+	  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+});
+ // OpenStreetMap layer
+ var OSM5 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
+// OpenTopoMap layer
+var OpenTopoMap5 = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	  maxZoom: 17,
+	  attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+// Esri Satellite
+var Esri_WorldImagery5 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+ });
+
+// State ski resort count layer
+var stateStats5 = L.geoJSON(nsaaVisits, {
+  style: function (feature) {
+    var fillColor;
+      if (feature.properties.Totals == null) fillColor = '#737373';
+      else if (feature.properties.Totals <= 100) fillColor = '#99d594';
+      else if (feature.properties.Totals <= 150) fillColor = "#e6f598";
+      else if (feature.properties.Totals <= 200) fillColor = "#fee08b";
+      else if (feature.properties.Totals <= 400) fillColor = "#fc8d59";
+      else if (feature.properties.Totals > 400)  fillColor = "#d53e4f";
+      else fillColor = "#737373";
+
+    return {
+      color: "#000",
+      weight: 0.5,
+      opacity: 1,
+      fillOpacity: 0.8,
+      fillColor: fillColor,
+    };
+},
+onEachFeature: function (feature, layer) {
+  layer.bindPopup("<b>NSAA Region: </b>" + feature.properties.NSAA_Resort_Regions + "<br><b>Ski Resorts: </b>" + feature.properties.Totals);
+}
+});
+
+// Initialize map
+var map5 = L.map('map5', {
+    center: [50.88629, -106.58909],
+    zoom: 4,
+    layers: [Stamen_TonerLite5, stateStats5]
+});
+
+var layercontrol5 = L.control.layers({
+    "Stamen Toner Lite": Stamen_TonerLite5,
+    "OpenStreetMap_HOT": OpenStreetMap_HOT5,
+    "OpenStreetMap": OSM5,
+    "OSM Topo": OpenTopoMap5,
+    "Esri World Imagery": Esri_WorldImagery5
+    }, 
+    {
+    "Skier visits":  stateStats5  
+    }, 
+      
+).addTo(map5);
+
+// ski resort opened legend
+var Legend5 = L.control.Legend({
+    position: "bottomleft",
+    title: "Skiers",
+    opacity:0.50,
+    symbolWidth: 30,
+    symbolHeight: 40,
+    collapsed: true,
+    legends: [
+      {
+        label: "Below 100 million",
+        type: "circle",
+        radius: 6,
+        fillColor: "#99d594",
+        color: "#000",
+        fill: true,
+        fillOpacity: "0.8",
+        weight: 1,
+      },
+
+      {
+      label: "150-200 million",
+      type: "circle",
+      radius: 6,
+      fillColor: "#e6f598",
+      color: "#000",
+      fill: true,
+      fillOpacity: "0.8",
+      weight: 1,
+    },
+    {
+      label: "150-200 Million",
+      type: "circle",
+      radius: 6,
+      fillColor: "#fee08b",
+      color: "#000",
+      fill: true,
+      fillOpacity: "0.8",
+      weight: 1,
+    },
+    {
+      label: "200-400 Million",
+      type: "circle",
+      radius: 6,
+      fillColor: "#fc8d59",
+      color: "#000",
+      fill: true,
+      fillOpacity: "0.8",
+      weight: 1,
+    },
+    {
+      label: "Above 400 Million",
+      type: "circle",
+      radius: 6,
+      fillColor: "#d53e4f",
+      color: "#000",
+      fill: true,
+      fillOpacity: "1",
+      weight: 1,
+    },
+    
+    
+]
+}).addTo(map5);
+
+// add scale bar
+L.control.scale().addTo(map5);
+
+// chart js
+var years = ["21/22","20/21","19/20","18/19","17/18","16/17","15/16","14/15","13/14","12/13","11/12","10/11","09/10","08/09","07/08","06/07","06/07","04/05","03/04","02/03","01/02","00/01"
+                  ];
+var northEast = [12.666,12.252,11.488,12.514,11.987,11.936,9.346,13.332,13.386,13.334,11.021,13.887,13.411,13.73,14.261,11.801,12.505,13.661,12.892,13.991,12.188,13.697];
+var southEast = [4.405,	5.235,	3.835,	4.262,	4.161,	4.184,	3.957,	5.673,	5.769,	5.155,	4.405,	5.789,	6.016,	5.664,	5.204,	4.888,	5.839,	5.504,	5.588,	5.833,	4.994,	5.458];   
+var midWest = [6.816,	7.098,	6.396,	6.498,	6.257,	5.421,	5.516,	6.982,	7.695,	7.273,	6.382,	7.811,	7.718,	7.247,	8.099,	7.2,	7.787,	7.533,	7.773,	8.129,	6.98,	7.58];    
+var rockMnts = [25.25,	22.638,	20.107,	24.408,	20.792,	21.736,	22.287,	20.768,	21.1,	19.8,	19.13,	20.9,	20.378,	19.974,	21.324,	20.849,	20.717,	19.606,	18.868,	18.728,	18.123,	19.324];
+var pacSouthWest = [7.4,	7.2,	5.9,	7.5,	6.2,	7.3,	7.4,	4.8,	5.1,	7.1,	6.1,	8.1,	8.4,	7.1,	7.6,	6.5,	7.9,	8.9,	8,	7.9,	7.9,	7.8];
+var pacNorthWest = [4.1,	4.5,	3.2,	4.1,	3.8,	4.1,	4.2,	2,	3.3,	4.2,	3.9,	4,	3.8,	3.6,	3.9,	3.7,	4.1,	1.6,	3.9,	3,	4.1,	3.4,
+];
+
+var ctx = document.getElementById("myChart");
+  var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [
+        { 
+          data: northEast,
+          label: "North East",                
+        },
+        { 
+          data: southEast,
+          label: "South East",                
+        },
+        {
+          data: midWest,
+          label: "Mid West",
+        },
+        {
+          data: rockMnts,
+          label: "Rocky Mountains",
+        },
+        {
+          data: pacSouthWest,
+          label: "Pacific South West",
+        },
+        {
+          data: pacNorthWest,
+          label: "Pacific North West",
+        },
+          ]
+      }
+    });

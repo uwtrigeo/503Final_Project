@@ -924,5 +924,29 @@ var ctx = document.getElementById("myChart");
           label: "Pacific North West",
         },
           ]
-      }
-    });
+      },
+      options: {
+        plugins: {
+            title: {
+                display: true,
+                position: 'top',
+                text: 'Visits in Millions',
+            }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Year'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Visits in Millions'
+            }
+          }
+        }
+    }
+
+});

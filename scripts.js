@@ -635,7 +635,7 @@ var skiStats4 = L.geoJSON(resorts, {
         else circleColor = '#737373';
     
     var marker = L.circleMarker(latlng, {radius: circleSize, color: circleColor, weight: 1, opacity: 4, fillOpacity: 0.7});
-        marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Vertical: </b>" + feature.properties.vertical + "</p>");
+        marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> Vertical: </b>" + feature.properties.vertical + " feet");
         return marker;
   }
 });
@@ -790,7 +790,7 @@ var stateStats5 = L.geoJSON(nsaaVisits, {
     };
 },
 onEachFeature: function (feature, layer) {
-  layer.bindPopup("<b>NSAA Region: </b>" + feature.properties.NSAA_Resort_Regions + "<br><b>Ski Resorts: </b>" + feature.properties.Totals);
+  layer.bindPopup("<b>NSAA Region: </b>" + feature.properties.NSAA_Resort_Regions + "<br><b>Skier visits: </b>" + feature.properties.Totals + " million");
 }
 });
 

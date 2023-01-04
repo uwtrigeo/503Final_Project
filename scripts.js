@@ -45,13 +45,13 @@ var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest
 var skiStats = L.geoJSON(resorts, {
     pointToLayer: function (feature, latlng) {
       var circleSize;      
-          if (feature.properties.year_opened <= 1950) circleSize = 4;
+          if (feature.properties.year_opened <= 1950) circleSize = 6;
           else if (feature.properties.year_opened <= 1960) circleSize = 6;
-          else if (feature.properties.year_opened <= 1970) circleSize = 8;
-          else if (feature.properties.year_opened <= 1980) circleSize = 10;
-          else if (feature.properties.year_opened <= 1990) circleSize = 14;
-          else if (feature.properties.year_opened > 1990) circleSize = 18;
-          else circleSize = 4;
+          else if (feature.properties.year_opened <= 1970) circleSize = 6;
+          else if (feature.properties.year_opened <= 1980) circleSize = 6;
+          else if (feature.properties.year_opened <= 1990) circleSize = 6;
+          else if (feature.properties.year_opened > 1990) circleSize = 6;
+          else circleSize = 6;
       var circleColor;
           if (feature.properties.year_opened <= 1950) circleColor = "#3288db";
           else if (feature.properties.year_opened <= 1960) circleColor = "#99d594";
@@ -133,14 +133,14 @@ var Legend = L.control.Legend({
     position: "bottomleft",
     title: "Opened",
     opacity:0.50,
-    symbolWidth: 55,
-    symbolHeight: 40,
+    symbolWidth: 30,
+    symbolHeight: 25,
     collapsed: true,
     legends: [
     {
       label: "Before 1950",
       type: "circle",
-      radius: 4,
+      radius: 6,
       fillColor: "#3288bd",
       color: "#000",
       fill: true,
@@ -160,7 +160,7 @@ var Legend = L.control.Legend({
     {
       label: "1961-1970",
       type: "circle",
-      radius: 8,
+      radius: 6,
       fillColor: "#e6f598",
       color: "#000",
       fill: true,
@@ -170,7 +170,7 @@ var Legend = L.control.Legend({
     {
       label: "1971-1980",
       type: "circle",
-      radius: 10,
+      radius: 6,
       fillColor: "#fee08b",
       color: "#000",
       fill: true,
@@ -180,7 +180,7 @@ var Legend = L.control.Legend({
     {
       label: "1981-1990",
       type: "circle",
-      radius: 14,
+      radius: 6,
       fillColor: "#fc8d59",
       color: "#000",
       fill: true,
@@ -190,7 +190,7 @@ var Legend = L.control.Legend({
     {
       label: "After 1990",
       type: "circle",
-      radius: 18,
+      radius: 6,
       fillColor: "#d53e4f",
       color: "#000",
       fill: true,
@@ -200,7 +200,7 @@ var Legend = L.control.Legend({
     {
       label: "NA",
       type: "circle",
-      radius: 4,
+      radius: 6,
       fillColor: "#737373",
       color: "#000",
       fill: true,

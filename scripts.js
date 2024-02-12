@@ -13,14 +13,6 @@ var myStyle = {
 
 
 // Add basemap
-// Stamen toner lite
-var Stamen_TonerLite = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
-	  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	  subdomains: 'abcd',
-	  minZoom: 0,
-	  maxZoom: 20,
-	  ext: 'png'
-});
 // OSM HOT
 var OpenStreetMap_HOT = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
 	  maxZoom: 19,
@@ -110,11 +102,10 @@ onEachFeature: function (feature, layer) {
 var map = L.map('map', {
     center: [50.88629, -106.58909],
     zoom: 4,
-    layers: [Stamen_TonerLite, skiStats]
+    layers: [OSM, skiStats]
 });
 
 var layercontrol = L.control.layers({
-    "Stamen Toner Lite": Stamen_TonerLite,
     "OpenStreetMap_HOT": OpenStreetMap_HOT,
     "OpenStreetMap": OSM,
     "OSM Topo": OpenTopoMap,
@@ -218,14 +209,7 @@ L.control.scale().addTo(map);
 // Map 2 - Acres by resort and state
 
 // Add basemap
-// Stamen_TonerLite
-var Stamen_TonerLite2 = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
-	  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	  subdomains: 'abcd',
-	  minZoom: 0,
-	  maxZoom: 20,
-	  ext: 'png'
-});
+
 // OSM HOT
 var OpenStreetMap_HOT2 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
 	  maxZoom: 19,
@@ -304,11 +288,10 @@ var stateStats2 = L.geoJSON(states, {
 var map2 = L.map('map2', {
   center: [50.88629, -106.58909],
   zoom: 4,
-  layers: [Stamen_TonerLite2, skiStats2]
+  layers: [OSM2, skiStats2]
 });
 
 var layerControl2 = L.control.layers({
-    "Stamen Toner Lite": Stamen_TonerLite2,
     "OpenStreetMap HOT": OpenStreetMap_HOT2,
     "OpenStreetMap": OSM2,
     "OSM Topo": OpenTopoMap2,
@@ -402,14 +385,6 @@ L.control.scale().addTo(map2);
 // Map 3 - Lifts by resort and state
 
 // Add basemap
-// Stamen_TonerLite
-var Stamen_TonerLite3 = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
-	  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	  subdomains: 'abcd',
-	  minZoom: 0,
-	  maxZoom: 20,
-	  ext: 'png'
-});
 // OSM HOT
 var OpenStreetMap_HOT3 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
 	  maxZoom: 19,
@@ -488,11 +463,10 @@ onEachFeature: function (feature, layer) {
 var map3 = L.map('map3', {
     center: [50.88629, -106.58909],
     zoom: 4,
-    layers: [Stamen_TonerLite3, skiStats3]
+    layers: [OSM3, skiStats3]
 });
 
 var layerControl3 = L.control.layers({
-    "Stamen Toner Lite": Stamen_TonerLite3,
     "OpenStreetMap HOT": OpenStreetMap_HOT3,
     "OpenStreetMap": OSM3,
     "OSM Topo": OpenTopoMap3,
@@ -584,14 +558,6 @@ L.control.scale().addTo(map3);
 // Map 4 - Vertical Drop
 
 // Add basemap
-// Stamen_TonerLite
-var Stamen_TonerLite4 = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
-	  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	  subdomains: 'abcd',
-	  minZoom: 0,
-	  maxZoom: 20,
-	  ext: 'png'
-});
 // OSM HOT
 var OpenStreetMap_HOT4 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
 	  maxZoom: 19,
@@ -645,11 +611,10 @@ var skiStats4 = L.geoJSON(resorts, {
 var map4 = L.map('map4', {
     center: [50.88629, -106.58909],
     zoom: 4,
-    layers: [Stamen_TonerLite4, skiStats4]
+    layers: [OSM4, skiStats4]
   });
 
 var layerControl4 = L.control.layers({
-    "Stamen TonerLite": Stamen_TonerLite4,
     "OpenStreetMap HOT": OpenStreetMap_HOT4,
     "OpenStreetMap": OSM4,
     "OSM Topo": OpenTopoMap4,
@@ -741,14 +706,6 @@ L.control.scale().addTo(map4);
 // Map 5 - Ski visits by NSAA region
 
 // Add basemap
-// Stamen_TonerLite
-var Stamen_TonerLite5 = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
-	  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	  subdomains: 'abcd',
-	  minZoom: 0,
-	  maxZoom: 20,
-	  ext: 'png'
-});
 // OSM HOT
 var OpenStreetMap_HOT5 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
 	  maxZoom: 19,
@@ -798,11 +755,10 @@ onEachFeature: function (feature, layer) {
 var map5 = L.map('map5', {
     center: [50.88629, -106.58909],
     zoom: 4,
-    layers: [Stamen_TonerLite5, stateStats5]
+    layers: [OSM5, stateStats5]
 });
 
 var layercontrol5 = L.control.layers({
-    "Stamen Toner Lite": Stamen_TonerLite5,
     "OpenStreetMap_HOT": OpenStreetMap_HOT5,
     "OpenStreetMap": OSM5,
     "OSM Topo": OpenTopoMap5,
